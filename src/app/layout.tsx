@@ -7,8 +7,8 @@ import Nav from "@/components/Nav";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Expense Explorer",
-  description: "An app to explore your expenses.",
+  title: "Informacine sistema",
+  description: "Informacine sistema skirta vertinti KTU modulius ir destytojus",
 };
 
 export default function RootLayout({
