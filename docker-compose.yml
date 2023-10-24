@@ -1,0 +1,43 @@
+name: isp
+
+networks:
+  default:
+
+services:
+  db:
+    container_name: "isp-postgresql-db"
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: $POSTGRES_DB
+    ports:
+      - $DB_LOCAL_PORT:$DB_DOCKER_PORT
+    volumes:
+      - postgresql-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  app:
+    container_name: "isp-app"
+    depends_on:
+      db:
+        condition: service_healthy
+    build:
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - $APP_LOCAL_PORT:$APP_DOCKER_PORT
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./isp-app:/app
+    networks:
+      - default
+
+volumes:
+  postgresql-db-volume:

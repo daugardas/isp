@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Naudotojas {
+  id                    Int                 @id @default(autoincrement())
+  el_pastas             String              @unique
+  slaptazodis           String
+  vardas                String
+  telefonas             String              @unique
+  tipas                 NaudotojoTipas
+  pranesimuNustatymai   PranesimuNustatymai @relation(fields: [pranesimuNustatymaiId], references: [id])
+  pranesimuNustatymaiId Int                 @unique
+}
+
+enum NaudotojoTipas {
+  administratorius
+  destytojas
+  studentas
+}
+
+model PranesimuNustatymai {
+  id                                 Int         @id @default(autoincrement())
+  komentaro_reakcija                 Boolean
+  atsakymas_i_komentara              Boolean
+  sisteminis_naudotojo_pranesimas    Boolean
+  siusti_email_sisteminis_pranesimas Boolean
+  siusti_email_atsakymas_i_komentara Boolean
+  siusti_email_komentaro_reakcija    Boolean
+  naudotojas                         Naudotojas?
+}
+
+model Fakultetas {
+  id Int @id @default(autoincrement())
+  pavadinimas String
+  dekanas_vardas String
+  dekanas_pavarde String
+}
