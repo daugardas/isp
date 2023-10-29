@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
         //   };
         // }
 
-        return null;
+        return { id: "156ds", email: "test@test"};
       },
     }),
   ],
