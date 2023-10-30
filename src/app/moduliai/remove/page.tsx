@@ -2,27 +2,53 @@
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Home() {
   const router = useRouter();
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    router.push('/moduliai');
+  const handleDeleteModule = () => {
+    if (password.trim() === '') {
+      setError('Iveskite slaptažodį, kad užbaigtumėte ištrinimą.');
+    } else {
+      // Perform the delete module logic here
+      router.push('/moduliai');
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-        <h1 style={{
-            color: 'red',
-          }}>Ar tikrai norite ištrinti modulį?</h1>
-      <form onSubmit={handleFormSubmit}>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <h1 className="text-red-600 text-2xl mb-4">Ar tikrai norite ištrinti modulį?</h1>
+      <div className="w-full max-w-md mx-auto p-4 rounded-lg bg-white">
+        <p className="text-gray-700 text-lg mb-4">
+          Įveskite savo slaptažodį norėdami patvirtinti trinimą.
+        </p>
+        <input
+          type="password"
+          className="w-full py-2 px-4 border rounded-md focus:outline-none focus:ring focus:border-blue-300 mb-4 text-gray-700"
+          placeholder="Jūsų slaptažodis"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setError('');
+          }}
+        />
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <div className="flex items-center justify-center">
-        <button className="flex justify-center" type="submit"> Patvirtinti </button>
+          <button
+            onClick={handleDeleteModule}
+            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md"
+          >
+            Patvirtinti trinimą
+          </button>
         </div>
-        
-      </form>
-      <Link href="/moduliai">Atšaukti</Link>
+      </div>
+      <Link href="/moduliai" className="mt-4 underline text-blue-600">
+        Atšaukti
+      </Link>
     </div>
   );
 }
+
