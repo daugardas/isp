@@ -3,10 +3,10 @@
 import { useFormState } from "react-dom";
 import { signUp } from "./actions";
 import { signIn } from "next-auth/react";
-import Form from "./Form";
-import InputWrap from "./InputWrap";
-import Label from "./Label";
-import Input from "./Input";
+import Form from "@/components/Form";
+import InputWrap from "@/components/InputWrap";
+import Label from "@/components/Label";
+import Input from "@/components/Input";
 import SubmitButton from "@/components/SubmitButton";
 import { useRouter } from "next/navigation";
 
