@@ -10,17 +10,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="en">
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} ${GeistSans.className}`}
+        className={`${GeistSans.variable} ${GeistMono.variable} ${GeistSans.className} text-white`}
       >
         <div className="flex flex-col justify-between w-full h-full min-h-screen">
           <Nav />
-          <main className="flex-auto w-full mx-auto">{children}</main>
+          <main className="flex flex-auto w-full mx-auto">{children}</main>
+          {modal}
         </div>
       </body>
     </html>

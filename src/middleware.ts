@@ -1,8 +1,4 @@
-import { auth } from "@/lib/auth";
-
-export default auth((req) => {
-  // req.auth === null -> unauthenticated
-});
+export { auth as middleware } from "./lib/auth";
 
 // Read more: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
 export const config = {

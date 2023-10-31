@@ -29,8 +29,9 @@ model Naudotojas {
 
 enum NaudotojoTipas {
   administratorius
-  destytojas
+  paprastas
   studentas
+  destytojas
 }
 
 model PranesimuNustatymai {
