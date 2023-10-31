@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { GeistMono, GeistSans } from "geist/font";
-import { NextAuthProvider } from "./providers";
 import Nav from "@/components/Nav";
 
 export const metadata: Metadata = {
@@ -16,11 +15,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${GeistSans.variable} ${GeistMono.variable} ${GeistSans.className}`}>
-        <NextAuthProvider>
+      <body
+        className={`${GeistSans.variable} ${GeistMono.variable} ${GeistSans.className}`}
+      >
+        <div className="flex flex-col justify-between w-full h-full min-h-screen">
           <Nav />
-          {children}
-        </NextAuthProvider>
+          <main className="flex-auto w-full mx-auto">{children}</main>
+        </div>
       </body>
     </html>
   );
