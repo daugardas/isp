@@ -1,10 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistMono, GeistSans } from "geist/font";
 import { NextAuthProvider } from "./providers";
 import Nav from "@/components/Nav";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Informacine sistema",
@@ -18,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} ${GeistSans.className}`}>
         <NextAuthProvider>
           <Nav />
           {children}
