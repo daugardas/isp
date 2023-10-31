@@ -1,21 +1,10 @@
-import { withAuth } from "next-auth/middleware";
+import { auth } from "@/lib/auth";
 
-export default withAuth(function middleware(req) {}, {
-  callbacks: {
-    authorized: ({ req, token }) => {
-      console.log(token);
-      // if (
-      //   (token &&
-      //     req.nextUrl.pathname !== "/login" &&
-      //     req.nextUrl.pathname !== "/register") ||
-      //   (!token &&
-      //     (req.nextUrl.pathname === "/login" ||
-      //       req.nextUrl.pathname === "/register" ||
-      //       req.nextUrl.pathname === "/"))
-      // )
-      //   return true;
-      return true;
-      return false;
-    },
-  },
+export default auth((req) => {
+  // req.auth === null -> unauthenticated
 });
+
+// Read more: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};
