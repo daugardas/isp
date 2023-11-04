@@ -8,10 +8,7 @@ export default async function Page() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <Link href="/moduliai/add">Add</Link>
-      <Link href="/moduliai/ai">Chat GPT</Link>
-      <Link href="/moduliai/edit">Edit</Link>
-      <Link href="/moduliai/feedback">Review</Link>
-      <Link href="/moduliai/remove">Remove</Link>
+      <Link href="/moduliai/module" className="mt-4 underline text-blue-600">Matematika1</Link>
     </div>
   );
 }
