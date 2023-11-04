@@ -30,10 +30,11 @@ npm run docker-start-db
 
 ```
 npm install
+npm install --save-dev
 ```
 
 ## Paleidimas
-
+### Nepamirškit įsijungti Docker paleidžiant serverį
 #### Serverio paleidimas
 
 ```
@@ -44,4 +45,8 @@ npm run dev
 
 ```
 npx prisma studio
+```
+#### Jei atsirado pokyčių duomenų bazės schemos faile, tai reikės jums atsinaujinti savo duomenų bazės lenteles
+```
+npx prisma generate dev
 ```
