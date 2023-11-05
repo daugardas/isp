@@ -7,17 +7,30 @@ import { usePathname } from "next/navigation";
 export default function Nav() {
   const { data, status } = useSession();
   const pathname = usePathname();
-  const linkClassName = "h-full px-5 flex justify-center items-center hover:text-white hover:bg-zinc-800 transition duration-100";
+  const linkClassName =
+    "h-full px-5 flex justify-center items-center hover:text-white hover:bg-zinc-800 transition duration-100";
   return (
     <nav className="w-screen h-12 bg-zinc-900 flex justify-center">
       <Link
-        className={`${linkClassName} ${pathname === "/" ? "text-neutral-50" : "text-neutral-500"}`}
+        className={`${linkClassName} ${
+          pathname === "/" ? "text-neutral-50" : "text-neutral-500"
+        }`}
         href="/"
       >
         Pradžia
       </Link>
       {status == "authenticated" ? (
         <>
+          <Link
+            className={`${linkClassName} ${
+              pathname.startsWith("/naudotojai")
+                ? "text-neutral-50"
+                : "text-neutral-500"
+            }`}
+            href="/naudotojai"
+          >
+            Naudotojai
+          </Link>
           <Link
             className={`${linkClassName} ${
               pathname.startsWith("/destytojai")
@@ -64,23 +77,13 @@ export default function Nav() {
         <>
           <Link
             className={`${linkClassName} ${
-              pathname.startsWith("/auth/signin")
+              pathname.startsWith("/auth")
                 ? "text-neutral-50"
                 : "text-neutral-500"
             }`}
             href="/auth/signin"
           >
             Prisijungti
-          </Link>
-          <Link
-            className={`${linkClassName} ${
-              pathname.startsWith("/auth/signup")
-                ? "text-neutral-50"
-                : "text-neutral-500"
-            }`}
-            href="/auth/signup"
-          >
-            Registruotis
           </Link>
         </>
       )}
