@@ -14,12 +14,12 @@ export default function Home() {
       setError('Iveskite slaptažodį, kad užbaigtumėte ištrinimą.');
     } else {
       // Perform the delete module logic here
-      router.push('/moduliai');
+      router.push('/moduliai/module');
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
       <h1 className="text-red-600 text-2xl mb-4">Ar tikrai norite ištrinti modulį?</h1>
       <div className="w-full max-w-md mx-auto p-4 rounded-lg bg-white">
         <p className="text-gray-700 text-lg mb-4">
@@ -45,7 +45,7 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <Link href="/moduliai" className="mt-4 underline text-blue-600">
+      <Link href="/moduliai/module" className="mt-4 underline text-blue-600">
         Atšaukti
       </Link>
     </div>

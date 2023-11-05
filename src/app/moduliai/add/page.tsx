@@ -12,7 +12,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
       <form onSubmit={handleFormSubmit} className="mt-4">
         <div className="mb-4">
           <label className="block text-lg text-gray-700">Modulio pavadinimas</label>

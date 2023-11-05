@@ -28,7 +28,7 @@ export default function Home() {
 
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
       <img
       src="https://logowik.com/content/uploads/images/openai-chat-gpt-5636.logowik.com.webp" //
       alt="Chat Icon"
@@ -42,7 +42,7 @@ export default function Home() {
         {isLoading ? 'Generuojama...' : 'Generuoti D.I. nuomonę'}
       </button>
       {randomOpinion && !isLoading && <p className="mt-4 text-gray-800">{randomOpinion}</p>}
-      <Link href="/moduliai" className="mt-4 underline text-blue-600">Atgal</Link>
+      <Link href="/moduliai/module" className="mt-4 underline text-blue-600">Atgal</Link>
     </div>
   );
 }
