@@ -18,10 +18,6 @@ const authConfig: NextAuthConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        return {
-          id:"1",
-          email: "2@gmail.com",
-        } as User;
         if (!credentials || !credentials.email || !credentials.password) {
           return null;
         }
