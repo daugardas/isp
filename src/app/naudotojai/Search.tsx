@@ -5,8 +5,13 @@ type SearchProps = {
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
+/**
+ * Component for searching users.
+ * @param search - The search query string.
+ * @param handleSearch - The function to handle search input changes.
+ * @returns A React component for searching users.
+ */
 export default function Search({ search, handleSearch }: SearchProps) {
-
   return (
     <div className="flex w-full justify-center m-4">
       <input
@@ -14,7 +19,7 @@ export default function Search({ search, handleSearch }: SearchProps) {
         value={search}
         onChange={handleSearch}
         placeholder="Naudotojų paieška"
-        className="w-5/6 max-w-2xl h-10 bg-zinc-900 px-4 border border-none rounded-full outline-none shadow-zinc-700/50 shadow-md focus:outline-white/30"
+        className="w-5/6 max-w-2xl h-10 bg-zinc-900 px-4 border border-none rounded-full shadow-zinc-600 shadow-[inset_0px_5px_4px_-5px] outline-none focus:outline-white/30"
       />
     </div>
   );

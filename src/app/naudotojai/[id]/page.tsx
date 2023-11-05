@@ -1,5 +1,12 @@
 import prisma from "@/lib/db";
 
+/**
+ * Renders a page for a specific user.
+
+ * @param props.params - The URL parameters.
+ * @param  props.params.id - The ID of the user to display.
+ * @returns - The rendered page.
+ */
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
   const naudotojas = await prisma.naudotojas.findUnique({

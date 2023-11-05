@@ -77,23 +77,13 @@ export default function Nav() {
         <>
           <Link
             className={`${linkClassName} ${
-              pathname.startsWith("/auth/signin")
+              pathname.startsWith("/auth")
                 ? "text-neutral-50"
                 : "text-neutral-500"
             }`}
             href="/auth/signin"
           >
             Prisijungti
-          </Link>
-          <Link
-            className={`${linkClassName} ${
-              pathname.startsWith("/auth/signup")
-                ? "text-neutral-50"
-                : "text-neutral-500"
-            }`}
-            href="/auth/signup"
-          >
-            Registruotis
           </Link>
         </>
       )}
