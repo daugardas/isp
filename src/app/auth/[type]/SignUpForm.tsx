@@ -50,8 +50,16 @@ export default function SignUpForm() {
   return (
     <Form action={formAction}>
       <InputWrap>
+        <Label htmlFor="firstName">Įveskite vardą:</Label>
+        <Input type="text" name="firstName" required />
+      </InputWrap>
+      <InputWrap>
         <Label htmlFor="email">Įveskite el. paštą:</Label>
         <Input type="email" name="email" required />
+      </InputWrap>
+      <InputWrap>
+        <Label htmlFor="phone">Įveskite tel. nr.:</Label>
+        <Input type="tel" name="phone" required />
       </InputWrap>
       <InputWrap>
         <Label htmlFor="password">Įveskite slaptažodį:</Label>
@@ -61,14 +69,7 @@ export default function SignUpForm() {
         <Label htmlFor="confirmPassword">Patvirtinkinte slaptažodį:</Label>
         <Input type="password" name="confirmPassword" required />
       </InputWrap>
-      <InputWrap>
-        <Label htmlFor="firstName">Įveskite vardą:</Label>
-        <Input type="text" name="firstName" required />
-      </InputWrap>
-      <InputWrap>
-        <Label htmlFor="phone">Įveskite tel. nr.:</Label>
-        <Input type="tel" name="phone" required />
-      </InputWrap>
+
       <InputWrap>
         <SubmitButton type="submit">Registruotis</SubmitButton>
       </InputWrap>
