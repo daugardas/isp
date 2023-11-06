@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
+  const id = 1;
   const [randomOpinion, setRandomOpinion] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -42,7 +43,7 @@ export default function Home() {
         {isLoading ? 'Generuojama...' : 'Generuoti D.I. nuomonę'}
       </button>
       {randomOpinion && !isLoading && <p className="mt-4 text-gray-800">{randomOpinion}</p>}
-      <Link href="/moduliai/module" className="mt-4 underline text-blue-600">Atgal</Link>
+      <Link href={`/moduliai/${id}`} className="mt-4 underline text-blue-600">Atgal</Link>
     </div>
   );
 }
