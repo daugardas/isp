@@ -2,6 +2,7 @@
 import Link from 'next/link';
 
 export default async function Home() {
+  const id = 1;
   return (
     <div className="flex flex-col h-screen w-screen">
       <div className="p-4 bg-blue-500 w-full text-center flex flex-col items-center text-2xl font-semibold text-red-600 mb-1">
@@ -13,7 +14,7 @@ export default async function Home() {
       <div className="flex flex-col items-center text-2xl font-semibold text-blue-600 mb-1">
         <h1>Atsiliepimai</h1>
       </div>
-      <Link href="/destytojai/destytojas/review" className="flex flex-col items-center mt-2 underline text-red-200">Atsiliepimas apie dėstytoją</Link>
+      <Link href={`/destytojai/${id}/review`} className="flex flex-col items-center mt-2 underline text-red-200">Atsiliepimas apie dėstytoją</Link>
       <div className="flex flex-col items-center h-screen justify-center">
         <div className="flex flex-col items-center justify-bottom h-screen">
           <Link href="/destytojai" className="mt-4 underline text-blue-600">Atgal</Link>

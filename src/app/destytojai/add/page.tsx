@@ -10,7 +10,6 @@ export default function Home() {
     e.preventDefault();
     router.push('/destytojai');
   };
-
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
       <form onSubmit={handleFormSubmit} className="mt-4">

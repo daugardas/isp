@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Home() {
+  const id = 1;
   const router = useRouter();
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,7 +15,7 @@ export default function Home() {
       setError('Iveskite slaptažodį, kad užbaigtumėte ištrinimą.');
     } else {
       // Perform the delete module logic here
-      router.push('/destytojai/destytojas');
+      router.push(`/destytojai/${id}`);
     }
   };
 
@@ -45,7 +46,7 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <Link href="/destytojai/destytojas" className="mt-4 underline text-blue-600">
+      <Link href={`/destytojai/${id}`} className="mt-4 underline text-blue-600">
         Atšaukti
       </Link>
     </div>

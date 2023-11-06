@@ -6,9 +6,11 @@ import Link from 'next/link';
 export default function Home() {
   const router = useRouter();
 
+  const id = 1;
+
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push('/destytojai/destytojas');
+    router.push(`/destytojai/${id}`);
   };
 
  return(<div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
@@ -58,7 +60,7 @@ export default function Home() {
      </button>
    </div>
  </form>
- <Link href="/destytojai/destytojas" className="mt-4 underline text-blue-600">
+ <Link href={`/destytojai/${id}`} className="mt-4 underline text-blue-600">
    Atgal
  </Link>
 </div>);
