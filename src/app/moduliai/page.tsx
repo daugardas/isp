@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
+  const id = 1;
   const session = await auth();
   if (!session) redirect("/auth/signin");
   return (
@@ -11,7 +12,7 @@ export default async function Page() {
         <h1 className="text-2xl font-semibold text-center">Modulių sąrašas</h1>
       </div>
       <div className="p-2 text-center items-center text-1xl font-semibold">
-        <Link href="/moduliai/module" className="mt-4 underline text-blue-600 p-1">Matematika1</Link>
+        <Link href={`/moduliai/${id}`} className="mt-4 underline text-blue-600 p-1">Matematika1</Link>
       </div>
       <div className="bg-blue-500 text-white p-4 mt-auto">
         <div className="text-center">

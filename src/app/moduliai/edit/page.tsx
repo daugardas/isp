@@ -4,11 +4,12 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Home() {
+  const id = 1;
   const router = useRouter();
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push('/moduliai/module');
+    router.push(`/moduliai/${id}`);
   };
 
  return(<div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
@@ -58,7 +59,7 @@ export default function Home() {
      </button>
    </div>
  </form>
- <Link href="/moduliai/module" className="mt-4 underline text-blue-600">
+ <Link href={`/moduliai/${id}`} className="mt-4 underline text-blue-600">
    Atgal
  </Link>
 </div>);
