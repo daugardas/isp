@@ -4,16 +4,17 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Home() {
-  const id = 1;
   const router = useRouter();
+
+  const id = 1;
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`/moduliai/${id}`);
+    router.push(`/destytojai/${id}`);
   };
 
  return(<div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
- <h1 className="text-4xl font-semibold text-red-600 mb-6">Modulio redagavimas</h1>
+ <h1 className="text-4xl font-semibold text-red-600 mb-6">Dėstytojo redagavimas</h1>
  <form onSubmit={handleFormSubmit} className="w-full max-w-md mx-auto">
    <div className="mb-4">
      <label className="block text-lg text-gray-700">Kitas laukas</label>
@@ -59,7 +60,7 @@ export default function Home() {
      </button>
    </div>
  </form>
- <Link href={`/moduliai/${id}`} className="mt-4 underline text-blue-600">
+ <Link href={`/destytojai/${id}`} className="mt-4 underline text-blue-600">
    Atgal
  </Link>
 </div>);

@@ -8,14 +8,13 @@ export default function Home() {
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push('/moduliai');
+    router.push('/destytojai');
   };
-
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
       <form onSubmit={handleFormSubmit} className="mt-4">
         <div className="mb-4">
-          <label className="block text-lg text-gray-700">Modulio pavadinimas</label>
+          <label className="block text-lg text-gray-700">Dėstytojo vardas</label>
           <input
             type="text"
             className="w-64 py-2 px-4 border rounded-md focus:outline-none focus:ring focus:border-blue-300 text-gray-700"
@@ -25,7 +24,7 @@ export default function Home() {
 
         {/* Additional Input Fields */}
         <div className="mb-4">
-          <label className="block text-lg text-gray-700">Kitas laukas</label>
+          <label className="block text-lg text-gray-700">Dėstytojo pavardė</label>
           <input
             type="text"
             className="w-64 py-2 px-4 border rounded-md focus:outline-none focus:ring focus:border-blue-300 text-gray-700"
@@ -69,7 +68,7 @@ export default function Home() {
           </button>
         </div>
       </form>
-      <Link href="/moduliai" className="mt-4 underline text-blue-500">Atgal</Link>
+      <Link href="/dėstytojai" className="mt-4 underline text-blue-500">Atgal</Link>
     </div>
   );
 }
