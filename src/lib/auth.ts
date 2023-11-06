@@ -51,11 +51,15 @@ const authConfig: NextAuthConfig = {
     signOut: "/auth/signout",
   },
   callbacks: {
-    jwt({ token, user, account }) {
+    jwt({ token, user }) {
       if (token && user) {
         token.id = user.id;
       }
       return token;
+    },
+    session({ session, token }) {
+      if (token && session.user && token.id) session.user.id = token.id;
+      return session;
     },
   },
 };
