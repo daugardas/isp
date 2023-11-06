@@ -23,7 +23,7 @@ export default function Nav() {
         <>
           <Link
             className={`${linkClassName} ${
-              pathname.startsWith("/naudotojai")
+              pathname === "/naudotojai"
                 ? "text-neutral-50"
                 : "text-neutral-500"
             }`}
@@ -60,6 +60,16 @@ export default function Nav() {
             href="/pranesimai"
           >
             Pranešimai
+          </Link>
+          <Link
+            className={`${linkClassName} ${
+              pathname.startsWith("/profilis")
+                ? "text-neutral-50"
+                : "text-neutral-500"
+            }`}
+            href={`/profilis`}
+          >
+            Profilis
           </Link>
           <Link
             className={`${linkClassName} ${
