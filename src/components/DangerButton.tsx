@@ -1,4 +1,4 @@
-export default function SubmitButton({
+export default function DangerButton({
   children,
   className,
   ...props

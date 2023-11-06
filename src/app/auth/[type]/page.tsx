@@ -37,7 +37,7 @@ export default async function Page({ params }: { params: { type: AuthType } }) {
               : "bg-zinc-900 text-zinc-600"
           }`}
         >
-          Prisiregistruoti
+          Užsiregistruoti
         </Link>
       </div>
       {params.type === AuthType.signIn ? <SignInForm /> : <SignUpForm />}

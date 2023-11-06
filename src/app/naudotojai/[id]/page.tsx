@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   });
 
   return (
-    <div className="mt-6  w-8/12 max-w-lg flex flex-col items-center">
+    <div className="mt-6 w-8/12 max-w-lg flex flex-col items-center">
       <h1 className="text-3xl font-bold">{naudotojas.vardas}</h1>
       <p className="text-lg">{naudotojas.el_pastas}</p>
       <p className="text-lg">{naudotojas.telefonas}</p>

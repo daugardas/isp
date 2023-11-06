@@ -28,7 +28,7 @@ export default function SignInForm() {
       return {
         ...prevState,
         error:
-          signInResponse?.error || "Nepavyko prisijungti. Pabandykite vėliau.",
+          signInResponse?.error === "CredentialsSignin" ? "Neteisingas slaptažodis": "Nepavyko prisijungti. Pabandykite vėliau.",
       };
     }
 
@@ -52,7 +52,7 @@ export default function SignInForm() {
         <SubmitButton type="submit">Prisijungti</SubmitButton>
       </InputWrap>
       <InputWrap>
-        {state.error && <InputWrap>{state.error}</InputWrap>}
+        {state.error && <InputWrap className="text-red-600">{state.error}</InputWrap>}
       </InputWrap>
     </Form>
   );
