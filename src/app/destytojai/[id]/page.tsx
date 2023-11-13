@@ -1,5 +1,6 @@
 
 import Link from 'next/link';
+import CommentSection from '../../../components/CommentSection';
 
 export default async function Home() {
   const id = 1;
@@ -32,6 +33,9 @@ export default async function Home() {
             <Link href="/destytojai/remove" className="text-1xl font-semibold hover:text-red-700">Pašalintį dėstytoją</Link>
           </li>
         </ul>
+      </div>
+      <div>
+          <CommentSection />
       </div>
     </div>
   );

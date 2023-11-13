@@ -1,5 +1,6 @@
 
 import Link from 'next/link';
+import CommentSection from '../../../components/CommentSection';
 
 export default async function Home() {
   const id = 1;
@@ -39,7 +40,10 @@ export default async function Home() {
             <Link href="/moduliai/remove" className="text-1xl font-semibold hover:text-red-700">Pašalintį modulį</Link>
           </li>
         </ul>
-      </div>
+       </div>
+       <div>
+           <CommentSection />
+       </div>
     </div>
   );
 }
