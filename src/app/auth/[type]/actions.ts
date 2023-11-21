@@ -2,8 +2,11 @@
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
-import { NaudotojoTipas } from "@prisma/client";
 import { hash } from "bcryptjs";
+import { createHash } from "crypto";
+import { renderConfirmCodeEmail, sendConfirmCodeEmail } from "@/lib/mailing";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export async function signUp(formData: FormData) {
   const session = await auth();
@@ -28,7 +31,6 @@ export async function signUp(formData: FormData) {
         slaptazodis: await hash(password, 10),
         vardas: firstName,
         telefonas: phone,
-        tipas: NaudotojoTipas.paprastas,
         pranesimuNustatymai: {
           create: {
             komentaro_reakcija: false,
@@ -42,9 +44,51 @@ export async function signUp(formData: FormData) {
       },
     });
 
-    return { message: "User created successfully" };
+    // send request email confirmation email
+    try {
+      const code = createHash("sha256")
+        .update(email)
+        .digest("hex")
+        .slice(0, 4)
+        .toUpperCase();
+
+      // const data = await resend.emails.send({
+      //   from: "Test <onboarding@resend.dev>",
+      //   to: [email],
+      //   subject: "Confirm your email",
+      //   react: EmailRequestConfirmTemplate({
+      //     firstName,
+      //     confirmCode: code,
+      //   }),
+      // });
+      const html = await renderConfirmCodeEmail(firstName, code);
+      const data = await sendConfirmCodeEmail(
+        email,
+        "Confirm your email",
+        "text",
+        html
+      );
+
+      // write email confirmation code to db
+      await prisma.patvirtinimoKodas.create({
+        data: {
+          kodas: code,
+          data: new Date(),
+          naudotojasId: naudotojas.id,
+        },
+      });
+
+      console.log("Email sent", data);
+    } catch (error) {
+      console.error("Error sending email", error);
+      return { error };
+    }
   } catch (error) {
     console.error(error);
     return { error };
   }
+
+  //redirect();
+  cookies().set("confirmEmail", email);
+  redirect("/auth/confirm");
 }

@@ -9,7 +9,9 @@ enum AuthType {
   signUp = "signup",
 }
 
-export default async function Page({ params }: { params: { type: AuthType } }) {
+export default async function Page({
+  params,
+}: Readonly<{ params: { type: AuthType } }>) {
   const session = await auth();
   if (session) redirect("/");
 
