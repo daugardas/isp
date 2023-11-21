@@ -11,20 +11,30 @@ datasource db {
 }
 
 model Naudotojas {
-  id                    Int                 @id @default(autoincrement())
-  el_pastas             String              @unique
-  slaptazodis           String
-  vardas                String
-  telefonas             String              @unique
-  tipas                 NaudotojoTipas
-  pranesimuNustatymai   PranesimuNustatymai @relation(fields: [pranesimuNustatymaiId], references: [id])
-  pranesimuNustatymaiId Int                 @unique
-  Fakultetas            Fakultetas?         @relation(fields: [fakultetasId], references: [id])
-  fakultetasId          Int?
-  Komentaras            Komentaras[]
-  Reakcija              Reakcija[]
-  Atsiliepimas          Atsiliepimas[]
-  Pranesimas            Pranesimas[]
+  id                     Int                 @id @default(autoincrement())
+  el_pastas              String              @unique
+  el_pastas_patvirtintas Boolean             @default(false)
+  kodas                  PatvirtinimoKodas[]
+  slaptazodis            String
+  vardas                 String
+  telefonas              String              @unique
+  tipas                  NaudotojoTipas      @default(paprastas)
+  pranesimuNustatymai    PranesimuNustatymai @relation(fields: [pranesimuNustatymaiId], references: [id])
+  pranesimuNustatymaiId  Int                 @unique
+  Fakultetas             Fakultetas?         @relation(fields: [fakultetasId], references: [id])
+  fakultetasId           Int?
+  Komentaras             Komentaras[]
+  Reakcija               Reakcija[]
+  Atsiliepimas           Atsiliepimas[]
+  Pranesimas             Pranesimas[]
+}
+
+model PatvirtinimoKodas {
+  id           Int         @id @default(autoincrement())
+  kodas        String      @unique
+  data         DateTime
+  naudotojas   Naudotojas? @relation(fields: [naudotojasId], references: [id])
+  naudotojasId Int?
 }
 
 enum NaudotojoTipas {
