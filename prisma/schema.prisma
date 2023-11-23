@@ -11,22 +11,46 @@ datasource db {
 }
 
 model Naudotojas {
-  id                     Int                 @id @default(autoincrement())
-  el_pastas              String              @unique
-  el_pastas_patvirtintas Boolean             @default(false)
+  id                     Int                  @id @default(autoincrement())
+  el_pastas              String               @unique
+  el_pastas_patvirtintas Boolean              @default(false)
   kodas                  PatvirtinimoKodas[]
   slaptazodis            String
   vardas                 String
-  telefonas              String              @unique
-  tipas                  NaudotojoTipas      @default(paprastas)
-  pranesimuNustatymai    PranesimuNustatymai @relation(fields: [pranesimuNustatymaiId], references: [id])
-  pranesimuNustatymaiId  Int                 @unique
-  Fakultetas             Fakultetas?         @relation(fields: [fakultetasId], references: [id])
+  telefonas              String               @unique
+  tipas                  NaudotojoTipas       @default(naudotojas)
+  pranesimuNustatymai    PranesimuNustatymai  @relation(fields: [pranesimuNustatymaiId], references: [id])
+  pranesimuNustatymaiId  Int                  @unique
+  Fakultetas             Fakultetas?          @relation(fields: [fakultetasId], references: [id])
   fakultetasId           Int?
   Komentaras             Komentaras[]
   Reakcija               Reakcija[]
   Atsiliepimas           Atsiliepimas[]
   Pranesimas             Pranesimas[]
+  Zymes                  Zymes[]
+  PazymetiNaudotojai     PazymetiNaudotojai[]
+}
+
+model Zymes {
+  id                 Int                  @id @default(autoincrement())
+  zyme               String
+  data               DateTime             @default(now())
+  naudotojas         Naudotojas           @relation(fields: [naudotojasId], references: [id])
+  naudotojasId       Int
+  PazymetiNaudotojai PazymetiNaudotojai[]
+
+  @@unique([zyme, naudotojasId])
+}
+
+model PazymetiNaudotojai {
+  id                  Int        @id @default(autoincrement())
+  naudotojas          Naudotojas @relation(fields: [naudotojasId], references: [id])
+  naudotojasId        Int
+  zyme                Zymes      @relation(fields: [zymeId], references: [id])
+  zymeId              Int
+  pazymetoNaudotojoId Int
+
+  @@unique([naudotojasId, pazymetoNaudotojoId])
 }
 
 model PatvirtinimoKodas {
@@ -39,7 +63,7 @@ model PatvirtinimoKodas {
 
 enum NaudotojoTipas {
   administratorius
-  paprastas
+  naudotojas
   studentas
   destytojas
 }
