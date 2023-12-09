@@ -10,6 +10,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum NaudotojoTipas {
+  administratorius
+  naudotojas
+  studentas
+  destytojas
+}
+
+enum DestytojoTipas {
+  docentas
+  profesorius
+  lektorius
+}
+
+enum DestytojoLaipsnis {
+  bakalauras
+  magistras
+  daktaras
+  habilituotas_daktaras
+}
+
+enum DestytojoPareigos {
+  destytojas
+  dekanas
+  prodekanas
+  studiju_programos_vadovas
+  studiju_programos_kuratorius
+}
+
+enum IvertinimoTipas {
+  destytojo
+  modulio
+}
+
+enum ReakcijaTipas {
+  sirdis
+  patinka
+  nepatinka
+  juokinga
+  pikta
+  verkia
+  stebina
+}
+
 model Naudotojas {
   id                     Int                  @id @default(autoincrement())
   el_pastas              String               @unique
@@ -61,13 +104,6 @@ model PatvirtinimoKodas {
   naudotojasId Int?
 }
 
-enum NaudotojoTipas {
-  administratorius
-  naudotojas
-  studentas
-  destytojas
-}
-
 model PranesimuNustatymai {
   id                                 Int         @id @default(autoincrement())
   komentaro_reakcija                 Boolean
@@ -112,27 +148,6 @@ model Destytojas {
   moduliai           Modulis[]
 }
 
-enum DestytojoTipas {
-  docentas
-  profesorius
-  lektorius
-}
-
-enum DestytojoLaipsnis {
-  bakalauras
-  magistras
-  daktaras
-  habilituotas_daktaras
-}
-
-enum DestytojoPareigos {
-  destytojas
-  dekanas
-  prodekanas
-  studiju_programos_vadovas
-  studiju_programos_kuratorius
-}
-
 model Atsiliepimas {
   id           Int             @id @default(autoincrement())
   tipas        IvertinimoTipas
@@ -142,11 +157,6 @@ model Atsiliepimas {
   autoriusId   Int
   modulis      Modulis         @relation(fields: [modulisId], references: [id])
   modulisId    Int
-}
-
-enum IvertinimoTipas {
-  destytojo
-  modulio
 }
 
 model Komentaras {
@@ -170,16 +180,6 @@ model Reakcija {
   komentarasId Int
   naudotojas   Naudotojas    @relation(fields: [naudotojasId], references: [id])
   naudotojasId Int
-}
-
-enum ReakcijaTipas {
-  sirdis
-  patinka
-  nepatinka
-  juokinga
-  pikta
-  verkia
-  stebina
 }
 
 model Fakultetas {
@@ -206,6 +206,11 @@ model Kryptis {
   Modulis      Modulis[]
 }
 
+enum DestomaKalba {
+  lietuviu
+  anglu
+}
+
 model Modulis {
   id           Int            @id @default(autoincrement())
   pavadinimas  String
@@ -218,9 +223,4 @@ model Modulis {
   destytojasId Int?
   Komentaras   Komentaras[]
   Atsiliepimas Atsiliepimas[]
-}
-
-enum DestomaKalba {
-  lietuviu
-  anglu
 }
