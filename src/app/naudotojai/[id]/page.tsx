@@ -8,6 +8,7 @@ import { auth } from "@/lib/auth";
 import DangerButton from "@/components/DangerButton";
 import NeutralButton from "@/components/NeutralButton";
 import Tag from "./Tag";
+import Link from "next/link";
 
 /**
  * Renders a page for a specific user.
@@ -208,7 +209,17 @@ export default async function Page({
                 {loggedIn && (isAdmin || isSelf) && (
                     <div className="flex flex-row gap-2">
                         {isAdmin && <DangerButton>Ištrinti</DangerButton>}
-                        {isSelf && <NeutralButton>Redaguoti</NeutralButton>}
+
+                        {isSelf && (
+                            <div>
+                                <Link
+                                    href="/profilis/redaguoti"
+                                    className="bg-zinc-900 text-white px-4 py-2 rounded-md hover:bg-zinc-800 transition duration-100"
+                                >
+                                    Redaguoti
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 )}
             </CardWrap>
