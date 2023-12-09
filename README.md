@@ -35,6 +35,13 @@ npm install
 npm install --save-dev
 ```
 
+
+### Sukurti duomenų bazės scriptą, galite pavadinti kaip norite (prieš tai ištrinti prisma\migrations folderį)
+
+```bash
+npx prisma migrate dev 
+```
+
 ## Paleidimas
 
 ### Nepamirškit įsijungti Docker paleidžiant serverį
@@ -60,6 +67,7 @@ npx prisma generate dev
 ## Registracija su el. paštu
 
 Patvirtinimo kodo siuntimas yra vykdomas iš asmenio Google el. pašto, todėl reikia sugeneruoti jūsų paskyros slaptažodį, kuris bus naudojamas prisijungti prie jūsų el. pašto. Tai galite padaryti [čia](https://myaccount.google.com/apppasswords).
+Jūsų el. paštas privalo turėti 2-Step-Authentication, pridėti ją galite [autentikacijos gidas](https://support.google.com/accounts/answer/185833?hl=en).
 
 Sugeneruotą slaptažodį reikia įrašyti į .env.local (.env.local failas nėra įkėliamas į repozitoriją) failą, kurį reikia susikurti patiems. .env.local failo turinys:
 
@@ -67,5 +75,10 @@ Sugeneruotą slaptažodį reikia įrašyti į .env.local (.env.local failas nėr
 NODEMAILER_PASSWORD="xxxx xxxx xxxx xxxx"
 NODEMAILER_EMAIL="sender@email"
 ```
+
+pvz:
+NODEMAILER_PASSWORD="aaaa aaaa aaaa aaaa" - gautas slaptažodis iš [čia](https://myaccount.google.com/apppasswords).
+NODEMAILER_EMAIL="sender@email" - jūsų el. paštas.
+
 
 Padarius šiuos pakeitimus, reikia iš naujo paleisti serverį.
