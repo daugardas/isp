@@ -1,6 +1,6 @@
 import Button from "./Button";
 
-export default function SubmitButton({
+export default function NeutralButton({
   children,
   className,
   ...props
@@ -9,9 +9,7 @@ export default function SubmitButton({
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <Button
-      className={`bg-green-600 hover:bg-green-700 disabled:bg-neutral-800 ${
-        className ?? ""
-      }`}
+      className={`bg-zinc-600 hover:bg-zinc-700 ${className ?? ""}`}
       {...props}
     >
       {children}

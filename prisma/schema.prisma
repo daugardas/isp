@@ -10,28 +10,98 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Naudotojas {
-  id                    Int                 @id @default(autoincrement())
-  el_pastas             String              @unique
-  slaptazodis           String
-  vardas                String
-  telefonas             String              @unique
-  tipas                 NaudotojoTipas
-  pranesimuNustatymai   PranesimuNustatymai @relation(fields: [pranesimuNustatymaiId], references: [id])
-  pranesimuNustatymaiId Int                 @unique
-  Fakultetas            Fakultetas?         @relation(fields: [fakultetasId], references: [id])
-  fakultetasId          Int?
-  Komentaras            Komentaras[]
-  Reakcija              Reakcija[]
-  Atsiliepimas          Atsiliepimas[]
-  Pranesimas            Pranesimas[]
-}
-
 enum NaudotojoTipas {
   administratorius
-  paprastas
+  naudotojas
   studentas
   destytojas
+}
+
+enum DestytojoTipas {
+  docentas
+  profesorius
+  lektorius
+}
+
+enum DestytojoLaipsnis {
+  bakalauras
+  magistras
+  daktaras
+  habilituotas_daktaras
+}
+
+enum DestytojoPareigos {
+  destytojas
+  dekanas
+  prodekanas
+  studiju_programos_vadovas
+  studiju_programos_kuratorius
+}
+
+enum IvertinimoTipas {
+  destytojo
+  modulio
+}
+
+enum ReakcijaTipas {
+  sirdis
+  patinka
+  nepatinka
+  juokinga
+  pikta
+  verkia
+  stebina
+}
+
+model Naudotojas {
+  id                     Int                  @id @default(autoincrement())
+  el_pastas              String               @unique
+  el_pastas_patvirtintas Boolean              @default(false)
+  kodas                  PatvirtinimoKodas[]
+  slaptazodis            String
+  vardas                 String
+  telefonas              String               @unique
+  tipas                  NaudotojoTipas       @default(naudotojas)
+  pranesimuNustatymai    PranesimuNustatymai  @relation(fields: [pranesimuNustatymaiId], references: [id])
+  pranesimuNustatymaiId  Int                  @unique
+  Fakultetas             Fakultetas?          @relation(fields: [fakultetasId], references: [id])
+  fakultetasId           Int?
+  Komentaras             Komentaras[]
+  Reakcija               Reakcija[]
+  Atsiliepimas           Atsiliepimas[]
+  Pranesimas             Pranesimas[]
+  Zymes                  Zymes[]
+  PazymetiNaudotojai     PazymetiNaudotojai[]
+}
+
+model Zymes {
+  id                 Int                  @id @default(autoincrement())
+  zyme               String
+  data               DateTime             @default(now())
+  naudotojas         Naudotojas           @relation(fields: [naudotojasId], references: [id])
+  naudotojasId       Int
+  PazymetiNaudotojai PazymetiNaudotojai[]
+
+  @@unique([zyme, naudotojasId])
+}
+
+model PazymetiNaudotojai {
+  id                  Int        @id @default(autoincrement())
+  naudotojas          Naudotojas @relation(fields: [naudotojasId], references: [id])
+  naudotojasId        Int
+  zyme                Zymes      @relation(fields: [zymeId], references: [id])
+  zymeId              Int
+  pazymetoNaudotojoId Int
+
+  @@unique([naudotojasId, pazymetoNaudotojoId])
+}
+
+model PatvirtinimoKodas {
+  id           Int         @id @default(autoincrement())
+  kodas        String      @unique
+  data         DateTime
+  naudotojas   Naudotojas? @relation(fields: [naudotojasId], references: [id])
+  naudotojasId Int?
 }
 
 model PranesimuNustatymai {
@@ -78,27 +148,6 @@ model Destytojas {
   moduliai           Modulis[]
 }
 
-enum DestytojoTipas {
-  docentas
-  profesorius
-  lektorius
-}
-
-enum DestytojoLaipsnis {
-  bakalauras
-  magistras
-  daktaras
-  habilituotas_daktaras
-}
-
-enum DestytojoPareigos {
-  destytojas
-  dekanas
-  prodekanas
-  studiju_programos_vadovas
-  studiju_programos_kuratorius
-}
-
 model Atsiliepimas {
   id           Int             @id @default(autoincrement())
   tipas        IvertinimoTipas
@@ -108,11 +157,6 @@ model Atsiliepimas {
   autoriusId   Int
   modulis      Modulis         @relation(fields: [modulisId], references: [id])
   modulisId    Int
-}
-
-enum IvertinimoTipas {
-  destytojo
-  modulio
 }
 
 model Komentaras {
@@ -136,16 +180,6 @@ model Reakcija {
   komentarasId Int
   naudotojas   Naudotojas    @relation(fields: [naudotojasId], references: [id])
   naudotojasId Int
-}
-
-enum ReakcijaTipas {
-  sirdis
-  patinka
-  nepatinka
-  juokinga
-  pikta
-  verkia
-  stebina
 }
 
 model Fakultetas {
@@ -172,6 +206,11 @@ model Kryptis {
   Modulis      Modulis[]
 }
 
+enum DestomaKalba {
+  lietuviu
+  anglu
+}
+
 model Modulis {
   id           Int            @id @default(autoincrement())
   pavadinimas  String
@@ -184,9 +223,4 @@ model Modulis {
   destytojasId Int?
   Komentaras   Komentaras[]
   Atsiliepimas Atsiliepimas[]
-}
-
-enum DestomaKalba {
-  lietuviu
-  anglu
 }
