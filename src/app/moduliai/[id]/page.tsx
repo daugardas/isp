@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import CommentSection from '../../../components/CommentSection';
+import Kom from '../../komentarai/Kom'; // importing the comment section
 
 export default async function Home() {
   const id = 1;
@@ -42,7 +42,7 @@ export default async function Home() {
         </ul>
        </div>
        <div>
-           <CommentSection />
+              <Kom /> {/* This will display the comments */}
        </div>
     </div>
   );
