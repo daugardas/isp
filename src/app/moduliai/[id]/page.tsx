@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Label from "@/components/Label";
 import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { $Enums } from "@prisma/client";
 
 interface ModuleData {
   id: number;
@@ -27,6 +28,18 @@ export default async function Page({
 }: Readonly<{ params: { id: string } }>) {
   const { id } = params;
 
+
+
+
+const session = await auth();
+let loggedIn = false;
+let isAdmin = true;
+let isSelf = false;
+
+if (session) {
+    loggedIn = true;
+}
+
   const moduleData = await prisma.modulis.findUnique({
     where: {
       id: parseInt(id),
@@ -37,13 +50,14 @@ export default async function Page({
     return <div>Modulis nerastas</div>;
   }
 
-  const session = await auth();
+  
 
   return (
     <div className="mt-6 lg:w-3/12 max-w-lg w-8/12 flex flex-col items-center gap-4">
         <div className="flex flex-row w-full justify-between">
           <h1 className="text-lg font-bold break-words">{moduleData.pavadinimas}</h1>
         </div>
+        
         <InputWrap className="w-full">
           <Label className="font-bold">Modulio aprašymas:</Label>
           <p className="text-md break-words">{moduleData.aprasymas}</p>
@@ -65,14 +79,16 @@ export default async function Page({
         <Link href={`/moduliai/${moduleData.id}/edit`} className="text-1xl font-semibold hover:text-red-700">
               Koreguoti modulio informaciją
         </Link>
+        {isAdmin && (
         <Link href={`/moduliai/${moduleData.id}/remove`} className="text-1xl font-semibold hover:text-red-700">
-              Modulio ištrinimas
+        Modulio ištrinimas
         </Link>
+        )}
         <Link href={`/moduliai/${moduleData.id}/feedback`} className="text-1xl font-semibold hover:text-red-700">
               Modulio atsiliepimas
         </Link>
         <Link href={`/moduliai/${moduleData.id}/review`} className="text-1xl font-semibold hover:text-red-700">
-              Modulio atsiliepimai
+              Atsiliepimai apie modulius
         </Link>
     </div>
   );

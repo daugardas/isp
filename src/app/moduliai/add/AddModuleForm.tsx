@@ -71,10 +71,6 @@ export default function AddModuleForm() {
           <Label htmlFor="kryptisId">Kryptis ID:</Label>
           <input type="number" name="kryptisId" defaultValue={defaultModulis.kryptisId} required className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md" />
         </InputWrap>
-        <InputWrap>
-          <Label htmlFor="destytojasId">Destytojas ID:</Label>
-          <input type="number" name="destytojasId" defaultValue={defaultModulis.destytojasId ?? ""} className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md" />
-        </InputWrap>
         {/* Add other fields based on your Modulis model */}
         {state && state.error && (
           <div className="text-red-600">{state.error}</div>

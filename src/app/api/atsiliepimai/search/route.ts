@@ -6,8 +6,9 @@ type DataJson = {
 };
 
 export type MinimizedAtsiliepimas = {
-  modulisId: number;
+  id: number;
   atsiliepimas: string;
+  modulisId: number;
 };
 
 export type SearchResponse = {
@@ -30,8 +31,9 @@ export async function POST(req: NextRequest) {
       },
     },
     select: {
-      modulisId: true,
+      id: true,
       atsiliepimas: true,
+      modulisId: true
     },
   });
 
