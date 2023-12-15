@@ -58,7 +58,6 @@ export default function AddFeedbackForm({ moduleId }: AddFeedbackFormProps) {
             onChange={(e) => setTipas(e.target.value as IvertinimoTipas)}
             required
           >
-            <option value={IvertinimoTipas.destytojo}>Dėstytojo</option>
             <option value={IvertinimoTipas.modulio}>Modulio</option>
             {/* Add more options based on your IvertinimoTipas enum */}
           </select>
