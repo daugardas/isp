@@ -46,44 +46,49 @@ export default function AddModuleForm() {
   };
 
   return (
-    <div className="mt-6 w-8/12 max-w-xs flex flex-col items-center gap-4">
+    <div className="mt-6 w-8/12 max-w-xs flex flex-col items-center gap-4 dark:bg-gray-800 text-white p-4 rounded-md">
       <Form action={formAction}>
         <InputWrap>
           <Label htmlFor="pavadinimas">Pavadinimas:</Label>
-          <Input type="text" name="pavadinimas" defaultValue={defaultModulis.pavadinimas} required />
+          <input type="text" name="pavadinimas" defaultValue={defaultModulis.pavadinimas} required className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md" />
         </InputWrap>
         <InputWrap>
           <Label htmlFor="aprasymas">Aprašymas:</Label>
-          <Input type="text" name="aprasymas" defaultValue={defaultModulis.aprasymas} required />
+          <input type="text" name="aprasymas" defaultValue={defaultModulis.aprasymas} required className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md" />
         </InputWrap>
         <InputWrap>
           <Label htmlFor="kalba">Kalba:</Label>
-          <Input type="text" name="kalba" defaultValue={defaultModulis.kalba} required />
+          <select name="kalba" defaultValue={defaultModulis.kalba} required className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md">
+            <option value="lietuviu">Lietuvių</option>
+            <option value="anglu">Anglų</option>
+          </select>
         </InputWrap>
         <InputWrap>
           <Label htmlFor="kreditai">Kreditai:</Label>
-          <Input type="number" name="kreditai" defaultValue={defaultModulis.kreditai} required />
+          <input type="number" name="kreditai" defaultValue={defaultModulis.kreditai} required className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md" />
         </InputWrap>
         <InputWrap>
           <Label htmlFor="kryptisId">Kryptis ID:</Label>
-          <Input type="number" name="kryptisId" defaultValue={defaultModulis.kryptisId} required />
+          <input type="number" name="kryptisId" defaultValue={defaultModulis.kryptisId} required className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md" />
         </InputWrap>
         <InputWrap>
           <Label htmlFor="destytojasId">Destytojas ID:</Label>
-          <Input type="number" name="destytojasId" defaultValue={defaultModulis.destytojasId ?? ""} />
+          <input type="number" name="destytojasId" defaultValue={defaultModulis.destytojasId ?? ""} className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md" />
         </InputWrap>
         {/* Add other fields based on your Modulis model */}
         {state && state.error && (
-          <InputWrap className="text-red-600">{state.error}</InputWrap>
+          <div className="text-red-600">{state.error}</div>
         )}
         {state && state.message && (
-          <InputWrap className="text-green-600">{state.message}</InputWrap>
+          <div className="text-green-600">{state.message}</div>
         )}
         <div className="grid grid-cols-2 gap-5">
-          <Button type="button" onClick={() => router.back()}>
+          <Button type="button" onClick={() => router.back()} className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-md">
             Atšaukti
           </Button>
-          <SubmitButton type="submit">Išsaugoti</SubmitButton>
+          <SubmitButton type="submit" className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-md">
+            Išsaugoti
+          </SubmitButton>
         </div>
       </Form>
     </div>

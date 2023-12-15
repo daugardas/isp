@@ -41,8 +41,7 @@ export async function addModule(formData: FormData) {
                 kalba: kalba,
                 kreditai: kreditai,
                 kryptisId: kryptisId,
-                destytojasId: destytojasId,
-                // Add other fields as needed based on your data model
+                destytojasId: destytojasId
             },
         });
     } catch (error) {
