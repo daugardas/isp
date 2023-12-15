@@ -1,70 +1,27 @@
-'use client'
 
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import prisma from "@/lib/db";
+import EditModuleForm from "./EditModuleForm";
 
-export default function Page({
+export default async function Page({
   params,
 }: Readonly<{ params: { id: string } }>) {
   const { id } = params;
-  
-  const router = useRouter();
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    router.push(`/moduliai/${id}`);
-  };
+  const session = await auth();
+  if (!session || !session.user) {
+    redirect("/");
+  }
 
- return(<div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
- <h1 className="text-4xl font-semibold text-red-600 mb-6">Modulio redagavimas</h1>
- <form onSubmit={handleFormSubmit} className="w-full max-w-md mx-auto">
-   <div className="mb-4">
-     <label className="block text-lg text-gray-700">Kitas laukas</label>
-     <input
-       type="text"
-       className="w-full py-2 px-4 border rounded-md focus:outline-none focus:ring focus:border-blue-300 text-gray-700"
-       placeholder="Įveskite kitą informaciją"
-     />
-   </div>
+ 
+  const modulis = await prisma.modulis.findUnique({
+    where: { id: parseInt(id) },
+  });
 
-   <div className="mb-4">
-     <label className="block text-lg text-gray-700">Trečias laukas</label>
-     <input
-       type="text"
-       className="w-full py-2 px-4 border rounded-md focus:outline-none focus:ring focus:border-blue-300 text-gray-700"
-       placeholder="Įveskite trečią informaciją"
-     />
-   </div>
+  if (!modulis) {
+    return <div>Module not found</div>;
+  }
 
-   <div className="mb-4">
-     <label className="block text-lg text-gray-700">Ketvirtas laukas</label>
-     <input
-       type="text"
-       className="w-full py-2 px-4 border rounded-md focus:outline-none focus:ring focus:border-blue-300 text-gray-700"
-       placeholder="Įveskite ketvirtą informaciją"
-     />
-   </div>
-
-   <div className="mb-4">
-     <label className="block text-lg text-gray-700">Penktas laukas</label>
-     <input
-       type="text"
-       className="w-full py-2 px-4 border rounded-md focus:outline-none focus:ring focus:border-blue-300 text-gray-700"
-       placeholder="Įveskite penktą informaciją"
-     />
-   </div>
-   <div className="flex items-center justify-center">
-     <button
-       type="submit"
-       className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
-     >
-       Patvirtinti
-     </button>
-   </div>
- </form>
- <Link href={`/moduliai/${id}`} className="mt-4 underline text-blue-600">
-   Atgal
- </Link>
-</div>);
-
+  return <EditModuleForm params={params} modulis={modulis} />;
 }

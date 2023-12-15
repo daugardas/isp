@@ -83,7 +83,7 @@ export default function AddModuleForm() {
           <div className="text-green-600">{state.message}</div>
         )}
         <div className="grid grid-cols-2 gap-5">
-          <Button type="button" onClick={() => router.back()} className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-md">
+        <Button type="button" onClick={() => router.back()} className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-md">
             Atšaukti
           </Button>
           <SubmitButton type="submit" className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-md">

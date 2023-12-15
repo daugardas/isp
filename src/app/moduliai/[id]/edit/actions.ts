@@ -5,11 +5,10 @@ import prisma from "@/lib/db";
 import { DestomaKalba } from "@prisma/client";
 import { hash } from "bcryptjs";
 
-// Function to add a module
-export async function addModule(formData: FormData) {
+export async function editModule(moduleId: string, formData: FormData) {
     // Authenticating the session
     const session = await auth();
-    
+
     // Checking if the user is authenticated
     if (!session || !session.user) {
         return { error: "Reikia būti prisijungus" };
@@ -31,8 +30,9 @@ export async function addModule(formData: FormData) {
     }
 
     try {
-        // Creating a new module
-        await prisma.modulis.create({
+        // Updating an existing module
+        await prisma.modulis.update({
+            where: { id: parseInt(moduleId) }, // Convert moduleId to number
             data: {
                 pavadinimas: pavadinimas,
                 aprasymas: aprasymas,
@@ -43,9 +43,9 @@ export async function addModule(formData: FormData) {
             },
         });
     } catch (error) {
-        return { error: "Klaida serveryje pridedant modulį: " + error };
+        return { error: "Klaida serveryje redaguojant modulį: " + error };
     }
 
     // Returning success message
-    return { message: "Jūsų modulis sėkmingai pridėtas!" };
+    return { message: "Jūsų modulis sėkmingai redaguotas!" };
 }
