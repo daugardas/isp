@@ -11,7 +11,7 @@ import Input from "@/components/Input";
 import { useFormState } from "react-dom";
 import { Modulis , DestomaKalba} from "@prisma/client";
 import Button from "@/components/Button";
-import { useRouter } from "next/router"; // Changed from next/navigation
+import { useRouter } from "next/router";
 import SubmitButton from "@/components/SubmitButton";
 
 const initialFormState = {
