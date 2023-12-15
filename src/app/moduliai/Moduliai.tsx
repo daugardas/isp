@@ -43,7 +43,7 @@ export default function Moduliai({ moduliai }: ModuliaiProps) {
         {moduliai
           .filter((moduliai) => moduliai.pavadinimas.includes(search))
           .map((moduliai) => (
-            <Link key={moduliai.id} href={`/moduliai/${moduliai.id}`}>
+            <Link key={moduliai.id} className="w-full py-2 flex text-neutral-300 bg-zinc-900 hover:bg-zinc-800 border border-none rounded-full justify-center hover:text-white transition duration-50" href={`/moduliai/${moduliai.id}`}>
               {moduliai.pavadinimas}
             </Link>
           ))}

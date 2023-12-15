@@ -71,6 +71,9 @@ export default async function Page({
         <Link href={`/moduliai/${moduleData.id}/feedback`} className="text-1xl font-semibold hover:text-red-700">
               Modulio atsiliepimas
         </Link>
+        <Link href={`/moduliai/${moduleData.id}/review`} className="text-1xl font-semibold hover:text-red-700">
+              Modulio atsiliepimai
+        </Link>
     </div>
   );
 }
