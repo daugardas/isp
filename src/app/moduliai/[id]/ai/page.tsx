@@ -1,9 +1,18 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import InputWrap from "@/components/InputWrap";
+import Label from "@/components/Label";
+import prisma from "@/lib/db";
+import { auth } from "@/lib/auth";
 
-export default function Home() {
-  const id = 1;
+export default function Page({
+  params,
+}: Readonly<{ params: { id: string } }>) {
+  const { id } = params;
+
+
+
   const [randomOpinion, setRandomOpinion] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

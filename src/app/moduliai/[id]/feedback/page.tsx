@@ -2,8 +2,10 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function Home() {
-  const id = 1;
+export default function Page({
+  params,
+}: Readonly<{ params: { id: string } }>) {
+  const { id } = params;
   const router = useRouter();
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
