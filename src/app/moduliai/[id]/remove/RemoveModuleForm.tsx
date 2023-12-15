@@ -51,7 +51,7 @@ const RemoveModuleForm: React.FC<RemoveModuleFormProps> = ({ moduleId }) => {
         <input type="hidden" name="moduleId" value={moduleId} />
 
         <div className="grid grid-cols-2 gap-5">
-          <Link href={`/moduliai`}>
+        <Link href={`/moduliai/${moduleId}`}>
             Atgal
           </Link>
           <SubmitButton type="submit" className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md">
