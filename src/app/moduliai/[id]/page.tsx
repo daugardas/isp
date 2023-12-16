@@ -33,11 +33,15 @@ export default async function Page({
       id: parseInt(id),
     },
   });
+
+
+
   
 
 const session = await auth();
 let loggedIn = false;
 let isAdmin = false;
+let isModuleMaker = true;
 
 
 
@@ -46,14 +50,31 @@ if (session) {
   loggedIn = true;
   const userId = session.user?.id;
   if (userId) {
+    const numericUserId = parseInt(userId, 10); // Ensure userId is a number
     const userData = await prisma.naudotojas.findUnique({
       where: {
-        id: parseInt(userId)
+        id: numericUserId,
       },
-      
-    })
-    ;
+    });
+  
     isAdmin = userData?.tipas === $Enums.NaudotojoTipas.administratorius;
+  
+    // const reviewData = await prisma.atsiliepimas.findFirst({
+    //   where: {
+    //     autoriusId: numericUserId,
+    //     modulisId: parseInt(id)
+    //   },
+    // });
+
+    // if(reviewData != null)
+    // {
+    //   isReviewMaker = true;
+    // }
+    // else
+    // {
+    //   isReviewMaker = false;
+    // }
+    
   } else {
       return <div>Vartotojas nerastas</div>;
   }
@@ -86,9 +107,11 @@ return (
       <Link href={`/moduliai/${moduleData.id}/ai`} className="text-1xl font-semibold hover:text-red-700">
             Sugeneruoti modulio antraštę
       </Link>
+      {isModuleMaker && (
       <Link href={`/moduliai/${moduleData.id}/edit`} className="text-1xl font-semibold hover:text-red-700">
             Koreguoti modulio informaciją
       </Link>
+      )}
       {isAdmin && (
       <Link href={`/moduliai/${moduleData.id}/remove`} className="text-1xl font-semibold hover:text-red-700">
       Modulio ištrinimas
