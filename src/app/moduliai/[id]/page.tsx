@@ -28,68 +28,94 @@ export default async function Page({
 }: Readonly<{ params: { id: string } }>) {
   const { id } = params;
 
-
-
-
-const session = await auth();
-let loggedIn = false;
-let isAdmin = true;
-let isSelf = false;
-
-if (session) {
-    loggedIn = true;
-}
-
   const moduleData = await prisma.modulis.findUnique({
     where: {
       id: parseInt(id),
     },
   });
+  
 
-  if (!moduleData) {
-    return <div>Modulis nerastas</div>;
+const session = await auth();
+let loggedIn = false;
+let isAdmin = false;
+
+
+
+
+if (session) {
+  loggedIn = true;
+  const userId = session.user?.id;
+  if (userId) {
+    const userData = await prisma.naudotojas.findUnique({
+      where: {
+        id: parseInt(userId)
+      },
+      
+    })
+    ;
+    isAdmin = userData?.tipas === $Enums.NaudotojoTipas.administratorius;
+  } else {
+      return <div>Vartotojas nerastas</div>;
   }
+}
+
+if (!moduleData) {
+  return <div>Modulis nerastas</div>;
+}
+return (
+  <div className="mt-6 lg:w-3/12 max-w-lg w-8/12 flex flex-col items-center gap-4">
+      <div className="flex flex-row w-full justify-between">
+        <h1 className="text-lg font-bold break-words">{moduleData.pavadinimas}</h1>
+      </div>
+      
+      <InputWrap className="w-full">
+        <Label className="font-bold">Modulio aprašymas:</Label>
+        <p className="text-md break-words">{moduleData.aprasymas}</p>
+      </InputWrap>
+      <InputWrap className="w-full">
+        <Label className="font-bold">Kreditų skaičius:</Label>
+        <p className="text-md break-words">{moduleData.kreditai}</p>
+      </InputWrap>
+      <InputWrap className="w-full">
+        <Label className="font-bold">Modulio kalba:</Label>
+        <p className="text-md break-words">{moduleData.kalba}</p>
+      </InputWrap>
+      <Link href="/moduliai" className="mt-4 underline text-blue-600">
+          Atgal
+      </Link>
+      <Link href={`/moduliai/${moduleData.id}/ai`} className="text-1xl font-semibold hover:text-red-700">
+            Sugeneruoti modulio antraštę
+      </Link>
+      <Link href={`/moduliai/${moduleData.id}/edit`} className="text-1xl font-semibold hover:text-red-700">
+            Koreguoti modulio informaciją
+      </Link>
+      {isAdmin && (
+      <Link href={`/moduliai/${moduleData.id}/remove`} className="text-1xl font-semibold hover:text-red-700">
+      Modulio ištrinimas
+      </Link>
+      )}
+      <Link href={`/moduliai/${moduleData.id}/feedback`} className="text-1xl font-semibold hover:text-red-700">
+            Modulio atsiliepimas
+      </Link>
+      <Link href={`/moduliai/${moduleData.id}/review`} className="text-1xl font-semibold hover:text-red-700">
+            Atsiliepimai apie modulius
+      </Link>
+  </div>
+);
+}
+
+
+
+
+
+
 
   
 
-  return (
-    <div className="mt-6 lg:w-3/12 max-w-lg w-8/12 flex flex-col items-center gap-4">
-        <div className="flex flex-row w-full justify-between">
-          <h1 className="text-lg font-bold break-words">{moduleData.pavadinimas}</h1>
-        </div>
-        
-        <InputWrap className="w-full">
-          <Label className="font-bold">Modulio aprašymas:</Label>
-          <p className="text-md break-words">{moduleData.aprasymas}</p>
-        </InputWrap>
-        <InputWrap className="w-full">
-          <Label className="font-bold">Kreditų skaičius:</Label>
-          <p className="text-md break-words">{moduleData.kreditai}</p>
-        </InputWrap>
-        <InputWrap className="w-full">
-          <Label className="font-bold">Modulio kalba:</Label>
-          <p className="text-md break-words">{moduleData.kalba}</p>
-        </InputWrap>
-        <Link href="/moduliai" className="mt-4 underline text-blue-600">
-            Atgal
-        </Link>
-        <Link href={`/moduliai/${moduleData.id}/ai`} className="text-1xl font-semibold hover:text-red-700">
-              Sugeneruoti modulio antraštę
-        </Link>
-        <Link href={`/moduliai/${moduleData.id}/edit`} className="text-1xl font-semibold hover:text-red-700">
-              Koreguoti modulio informaciją
-        </Link>
-        {isAdmin && (
-        <Link href={`/moduliai/${moduleData.id}/remove`} className="text-1xl font-semibold hover:text-red-700">
-        Modulio ištrinimas
-        </Link>
-        )}
-        <Link href={`/moduliai/${moduleData.id}/feedback`} className="text-1xl font-semibold hover:text-red-700">
-              Modulio atsiliepimas
-        </Link>
-        <Link href={`/moduliai/${moduleData.id}/review`} className="text-1xl font-semibold hover:text-red-700">
-              Atsiliepimai apie modulius
-        </Link>
-    </div>
-  );
-}
+  
+
+  
+
+  
+
+  
