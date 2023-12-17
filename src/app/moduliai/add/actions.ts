@@ -2,7 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
-import { DestomaKalba } from "@prisma/client";
+import { DestomaKalba, Kryptis } from "@prisma/client";
 import { hash } from "bcryptjs";
 
 // Function to add a module
@@ -22,6 +22,9 @@ export async function addModule(formData: FormData) {
     const kreditai = parseInt(formData.get("kreditai") as string);
     const kryptisId = parseInt(formData.get("kryptisId") as string);
     const destytojasId = parseInt(formData.get("destytojasId") as string);
+
+    console.log(kryptisId);
+
 
     // Validating required fields
     if (pavadinimas === "" || aprasymas === "" || isNaN(kreditai) || isNaN(kryptisId)) {
