@@ -2,21 +2,24 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { MinimizedPranesimai } from "../api/pranesimai/search/route";
+import { MinimizedPranesimai } from "../../api/pranesimai/search/route";
 import { Session } from "inspector";
-import Search from "./Search";
-import { useSession } from "next-auth/react";
+import Search from "../Search";
+import { useRouter } from "next/navigation";
 
 type PranesimaiProps = {
   messages: MinimizedPranesimai[]; // Adjust the type based on your data model
-  isAdministrator: boolean;
+
 };
 
-export default function Pranesimai({ messages, isAdministrator }: PranesimaiProps) {
+export default function Pranesimai({ messages }: PranesimaiProps) {
 
   const [search, setSearch] = React.useState("");
   const [sortBy, setSortBy] = React.useState<string | null>(null);
   const [sortOrder, setSortOrder] = React.useState<"asc" | "desc">("asc");
+  const [selectedMessages, setSelectedMessages] = React.useState<number[]>([]);
+
+  const router = useRouter();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -32,6 +35,38 @@ export default function Pranesimai({ messages, isAdministrator }: PranesimaiProp
       setSortOrder("asc");
     }
   };
+  const handleCheckboxChange = (messageId: number) => {
+    setSelectedMessages((prevSelectedMessages) => {
+      if (prevSelectedMessages.includes(messageId)) {
+        // If the message is already selected, remove it
+        return prevSelectedMessages.filter((id) => id !== messageId);
+      } else {
+        // If the message is not selected, add it
+        return [...prevSelectedMessages, messageId];
+      }
+    });
+  };
+  const handleDeleteSelected = async () => {
+    console.log("Deleting messages:", selectedMessages);
+
+    const res = await fetch("/api/pranesimai/delete", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ messageID: selectedMessages }),
+    });
+
+    if (!res.ok) {
+      console.log("nepavyko")
+    } else {
+
+      const body = await res.json();
+      console.log(body);
+      router.refresh();
+    }
+  };
+
   const sortedMessages = React.useMemo(() => {
     if (sortBy) {
       return [...messages].sort((a, b) => {
@@ -50,20 +85,15 @@ export default function Pranesimai({ messages, isAdministrator }: PranesimaiProp
 
   return (
     <div>
-      <div className="bg-blue-500 text-white p-4 mt-auto flex justify-between space-x-4">
-
-        {isAdministrator && (
-          <Link href="/pranesimai/send" className="text-1xl font-semibold hover:text-red-700">
-            Siūsti pranešimą
-          </Link>
-        )}
-        <Link href="/pranesimai/delete" className="text-1xl font-semibold hover:text-red-700">Trinti pranešimą</Link>
-        <Link href="/pranesimai/settings" className="text-1xl font-semibold hover:text-red-700">Pranešimų nustatymai</Link>
-      </div>
-
       <Search search={search} handleSearch={handleSearch} />
       <h1 className="text-2xl">Pranešimai</h1>
-      <table className="w-full border border-golden-900 mt-4">
+      <h2 className="text-2xl text-right">
+        <button onClick={handleDeleteSelected} disabled={selectedMessages.length === 0} className="hover:bg-red-800 transition duration-400 py-2 px-4 rounded-md">
+          Ištrinti pažymėtus pranešimus
+        </button>
+      </h2>
+
+      <table className="w-full border border-golden mt-4">
         <thead className="bg-golden">
           <tr>
             <th className={`p-2 border-r border-golden text-left cursor-pointer`} onClick={() => handleSort("tipas")}>
@@ -76,12 +106,20 @@ export default function Pranesimai({ messages, isAdministrator }: PranesimaiProp
             {/*<th className="p-2 text-left">Naudotojas</th>*/}
           </tr>
         </thead>
+
         <tbody>
           {sortedMessages.filter((message) => message.tipas.includes(search)).map((message) => (
             <tr key={message.id}>
               <td className="p-2 border-r border-b border-golden">{message.tipas}</td>
               <td className="p-2 border-r border-b border-golden">{message.tekstas}</td>
               <td className="p-2 border-r border-b border-golden">{message.data.toDateString()}</td>
+              <td className="p-2 border-r border-b border-golden">
+                <input
+                  type="checkbox"
+                  checked={selectedMessages.includes(message.id)}
+                  onChange={() => handleCheckboxChange(message.id)}
+                />
+              </td>
               {/*<td className="p-2 border-b border-golden">{message.naudotojas.vardas}</td>
               {/* Render other message details as needed */}
             </tr>
