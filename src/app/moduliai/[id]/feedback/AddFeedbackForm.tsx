@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import Form from "@/components/Form";
 import InputWrap from "@/components/InputWrap";
@@ -21,8 +21,8 @@ interface AddFeedbackFormProps {
 }
 
 export default function AddFeedbackForm({ moduleId }: AddFeedbackFormProps) {
-    const [tipas, setTipas] = useState<IvertinimoTipas>(IvertinimoTipas.modulio);
-    const [atsiliepimasText, setAtsiliepimasText] = useState("");
+  const [tipas, setTipas] = useState<IvertinimoTipas>(IvertinimoTipas.modulio);
+  const [atsiliepimasText, setAtsiliepimasText] = useState("");
 
   const handleFormAction = async (prevState: any, formData: FormData) => {
     formData.set("atsiliepimas", atsiliepimasText);
@@ -68,9 +68,7 @@ export default function AddFeedbackForm({ moduleId }: AddFeedbackFormProps) {
           <div className="text-green-600">{state.message}</div>
         )}
         <div className="grid grid-cols-2 gap-5">
-          <Link href={`/moduliai/${moduleId}`}>
-            Atgal
-          </Link>
+          <Link href={`/moduliai/${moduleId}`}>Atgal</Link>
           <SubmitButton type="submit">Pridėti atsiliepimą</SubmitButton>
         </div>
       </Form>

@@ -1,6 +1,6 @@
 import InputWrap from "@/components/InputWrap";
 
-import Link from 'next/link';
+import Link from "next/link";
 import Label from "@/components/Label";
 import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
@@ -20,9 +20,8 @@ interface AtsiliepimasData {
  */
 export default async function Page({
   params,
-}: Readonly<{ params: { id: string, dc: string } }>) {
+}: Readonly<{ params: { id: string; dc: string } }>) {
   const { id, dc } = params;
-  
 
   const reviewData = await prisma.atsiliepimas.findUnique({
     where: {
@@ -57,14 +56,19 @@ export default async function Page({
           </InputWrap>
           <InputWrap className="w-full mb-4">
             <Label className="font-bold text-xl">Sukūrimo data:</Label>
-            <p className="text-lg mt-2">{reviewData.data.toLocaleDateString()}</p>
+            <p className="text-lg mt-2">
+              {reviewData.data.toLocaleDateString()}
+            </p>
           </InputWrap>
           <InputWrap className="w-full mb-4">
             <Label className="font-bold text-xl">Atsiliepimo tipas:</Label>
             <p className="text-lg mt-2">{reviewData.tipas}</p>
           </InputWrap>
           <div className="mt-6">
-            <Link href={`/moduliai/${reviewData.id}/review`} className="underline text-blue-600">
+            <Link
+              href={`/moduliai/${reviewData.id}/review`}
+              className="underline text-blue-600"
+            >
               Atgal
             </Link>
           </div>

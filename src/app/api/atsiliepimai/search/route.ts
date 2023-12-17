@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     select: {
       id: true,
       atsiliepimas: true,
-      modulisId: true
+      modulisId: true,
     },
   });
 

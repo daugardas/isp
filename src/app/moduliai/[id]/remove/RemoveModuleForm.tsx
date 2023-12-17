@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Form from "@/components/Form";
 import { redirect } from "next/navigation";
-import Link from 'next/link';
+import Link from "next/link";
 import { deleteModule } from "./actions";
 import Button from "@/components/Button";
 import { useRouter } from "next/router";
@@ -49,18 +49,26 @@ const RemoveModuleForm: React.FC<RemoveModuleFormProps> = ({ moduleId }) => {
       <Form action={handleFormAction}>
         {/* Hidden input to send module ID to the server */}
         <input type="hidden" name="moduleId" value={moduleId} />
-  
+
         <div className="grid grid-cols-2 gap-4">
-          <Link href={`/moduliai/${moduleId}`} className="text-blue-800 hover:underline">
+          <Link
+            href={`/moduliai/${moduleId}`}
+            className="text-blue-800 hover:underline"
+          >
             Atgal
           </Link>
-  
-          <SubmitButton type="submit" className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">
+
+          <SubmitButton
+            type="submit"
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
+          >
             Ištrinti
           </SubmitButton>
         </div>
-  
-        {state.message && <div className="text-green-600 mt-4">{state.message}</div>}
+
+        {state.message && (
+          <div className="text-green-600 mt-4">{state.message}</div>
+        )}
         {state.error && <div className="text-red-600 mt-4">{state.error}</div>}
       </Form>
     </div>

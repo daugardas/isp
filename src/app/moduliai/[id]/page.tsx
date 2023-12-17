@@ -1,6 +1,5 @@
-
 import InputWrap from "@/components/InputWrap";
-import Link from 'next/link';
+import Link from "next/link";
 import Label from "@/components/Label";
 import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
@@ -10,7 +9,7 @@ interface ModuleData {
   id: number;
   pavadinimas: string;
   aprasymas: string;
-  kalba: 'lietuviu' | 'anglu'; // Adjust based on your enum values
+  kalba: "lietuviu" | "anglu"; // Adjust based on your enum values
   kreditai: number;
   kryptisId: number;
   destytojasId: number | null;
@@ -34,122 +33,115 @@ export default async function Page({
     },
   });
 
+  const session = await auth();
+  let loggedIn = false;
+  let isAdmin = false;
+  let isModuleMaker = true;
 
+  if (session) {
+    loggedIn = true;
+    const userId = session.user?.id;
+    if (userId) {
+      const numericUserId = parseInt(userId, 10); // Ensure userId is a number
+      const userData = await prisma.naudotojas.findUnique({
+        where: {
+          id: numericUserId,
+        },
+      });
 
-  
+      isAdmin = userData?.tipas === $Enums.NaudotojoTipas.administratorius;
 
-const session = await auth();
-let loggedIn = false;
-let isAdmin = false;
-let isModuleMaker = true;
+      // const reviewData = await prisma.atsiliepimas.findFirst({
+      //   where: {
+      //     autoriusId: numericUserId,
+      //     modulisId: parseInt(id)
+      //   },
+      // });
 
-
-
-
-if (session) {
-  loggedIn = true;
-  const userId = session.user?.id;
-  if (userId) {
-    const numericUserId = parseInt(userId, 10); // Ensure userId is a number
-    const userData = await prisma.naudotojas.findUnique({
-      where: {
-        id: numericUserId,
-      },
-    });
-  
-    isAdmin = userData?.tipas === $Enums.NaudotojoTipas.administratorius;
-  
-    // const reviewData = await prisma.atsiliepimas.findFirst({
-    //   where: {
-    //     autoriusId: numericUserId,
-    //     modulisId: parseInt(id)
-    //   },
-    // });
-
-    // if(reviewData != null)
-    // {
-    //   isReviewMaker = true;
-    // }
-    // else
-    // {
-    //   isReviewMaker = false;
-    // }
-    
-  } else {
+      // if(reviewData != null)
+      // {
+      //   isReviewMaker = true;
+      // }
+      // else
+      // {
+      //   isReviewMaker = false;
+      // }
+    } else {
       return <div>Vartotojas nerastas</div>;
+    }
   }
-}
 
-if (!moduleData) {
-  return <div>Modulis nerastas</div>;
-}
-return (
-  <div className="mt-6 lg:w-3/4 max-w-3xl w-full mx-auto items-center gap-4">
-    <div className="w-full mb-4">
-      <h1 className="text-2xl font-bold">{moduleData.pavadinimas}</h1>
-    </div>
+  if (!moduleData) {
+    return <div>Modulis nerastas</div>;
+  }
+  return (
+    <div className="mt-6 lg:w-3/4 max-w-3xl w-full mx-auto items-center gap-4">
+      <div className="w-full mb-4">
+        <h1 className="text-2xl font-bold">{moduleData.pavadinimas}</h1>
+      </div>
 
-    <InputWrap className="w-full">
-      <Label className="font-bold text-blue-600">Modulio aprašymas:</Label>
-      <p className="text-sm">{moduleData.aprasymas}</p>
-    </InputWrap>
+      <InputWrap className="w-full">
+        <Label className="font-bold text-blue-600">Modulio aprašymas:</Label>
+        <p className="text-sm">{moduleData.aprasymas}</p>
+      </InputWrap>
 
-    <InputWrap className="w-full">
-      <Label className="font-bold text-blue-600">Kreditų skaičius:</Label>
-      <p className="text-sm">{moduleData.kreditai}</p>
-    </InputWrap>
+      <InputWrap className="w-full">
+        <Label className="font-bold text-blue-600">Kreditų skaičius:</Label>
+        <p className="text-sm">{moduleData.kreditai}</p>
+      </InputWrap>
 
-    <InputWrap className="w-full">
-      <Label className="font-bold text-blue-600">Modulio kalba:</Label>
-      <p className="text-sm">{moduleData.kalba}</p>
-    </InputWrap>
+      <InputWrap className="w-full">
+        <Label className="font-bold text-blue-600">Modulio kalba:</Label>
+        <p className="text-sm">{moduleData.kalba}</p>
+      </InputWrap>
 
-    <div className="flex flex-col space-y-2 mt-4">
-      <Link href="/moduliai" className="text-xl font-semibold hover:text-red-700">
-        Atgal
-      </Link>
-
-      <Link href={`/moduliai/${moduleData.id}/ai`} className="text-xl font-semibold hover:text-red-700">
-        Sugeneruoti modulio antraštę
-      </Link>
-
-      {isModuleMaker && (
-        <Link href={`/moduliai/${moduleData.id}/edit`} className="text-xl font-semibold hover:text-red-700">
-          Koreguoti modulio informaciją
+      <div className="flex flex-col space-y-2 mt-4">
+        <Link
+          href="/moduliai"
+          className="text-xl font-semibold hover:text-red-700"
+        >
+          Atgal
         </Link>
-      )}
 
-      {isAdmin && (
-        <Link href={`/moduliai/${moduleData.id}/remove`} className="text-xl font-semibold hover:text-red-700">
-          Modulio ištrinimas
+        <Link
+          href={`/moduliai/${moduleData.id}/ai`}
+          className="text-xl font-semibold hover:text-red-700"
+        >
+          Sugeneruoti modulio antraštę
         </Link>
-      )}
 
-      <Link href={`/moduliai/${moduleData.id}/feedback`} className="text-xl font-semibold hover:text-red-700">
-        Modulio atsiliepimas
-      </Link>
+        {isModuleMaker && (
+          <Link
+            href={`/moduliai/${moduleData.id}/edit`}
+            className="text-xl font-semibold hover:text-red-700"
+          >
+            Koreguoti modulio informaciją
+          </Link>
+        )}
 
-      <Link href={`/moduliai/${moduleData.id}/review`} className="text-xl font-semibold hover:text-red-700">
-        Atsiliepimai apie modulius
-      </Link>
+        {isAdmin && (
+          <Link
+            href={`/moduliai/${moduleData.id}/remove`}
+            className="text-xl font-semibold hover:text-red-700"
+          >
+            Modulio ištrinimas
+          </Link>
+        )}
+
+        <Link
+          href={`/moduliai/${moduleData.id}/feedback`}
+          className="text-xl font-semibold hover:text-red-700"
+        >
+          Modulio atsiliepimas
+        </Link>
+
+        <Link
+          href={`/moduliai/${moduleData.id}/review`}
+          className="text-xl font-semibold hover:text-red-700"
+        >
+          Atsiliepimai apie modulius
+        </Link>
+      </div>
     </div>
-  </div>
-);
-
+  );
 }
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  

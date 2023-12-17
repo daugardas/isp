@@ -1,4 +1,3 @@
-
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
@@ -14,7 +13,6 @@ export default async function Page({
     redirect("/");
   }
 
- 
   const modulis = await prisma.modulis.findUnique({
     where: { id: parseInt(id) },
   });

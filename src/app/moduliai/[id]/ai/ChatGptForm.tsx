@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import { auth } from "@/lib/auth";
 import Link from "next/link";
@@ -17,20 +17,20 @@ interface ModuleProps {
 }
 
 async function generateModuleTitle(name: string): Promise<string> {
-  const response = await fetch('https://api.openai.com/v1/completions', {
-    method: 'POST',
+  const response = await fetch("https://api.openai.com/v1/completions", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.API_KEY}`, 
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.API_KEY}`,
     },
     body: JSON.stringify({
       prompt: name,
-      model: 'text-gpt-3.5-turbo',
+      model: "text-gpt-3.5-turbo",
     }),
   });
   const data = await response.json();
-  console.log('ChatGPT API Response:', data); 
-  const generatedTitle = data.choices[0]?.text; 
+  console.log("ChatGPT API Response:", data);
+  const generatedTitle = data.choices[0]?.text;
   return generatedTitle || `Generated Title for ${name}`;
 }
 
