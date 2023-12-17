@@ -76,6 +76,11 @@ NODEMAILER_PASSWORD="xxxx xxxx xxxx xxxx"
 NODEMAILER_EMAIL="sender@email"
 ```
 
+.env.local reikia papildyti CHAT GPT API raktu, kuris leidžia kreiptis į patį CHATGPTAPI endpointą:
+```env
+API_KEY="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"
+```
+
 pvz:
 NODEMAILER_PASSWORD="aaaa aaaa aaaa aaaa" - gautas slaptažodis iš [čia](https://myaccount.google.com/apppasswords).
 NODEMAILER_EMAIL="sender@email" - jūsų el. paštas.
