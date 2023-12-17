@@ -84,47 +84,58 @@ if (!moduleData) {
   return <div>Modulis nerastas</div>;
 }
 return (
-  <div className="mt-6 lg:w-3/12 max-w-lg w-8/12 flex flex-col items-center gap-4">
-      <div className="flex flex-row w-full justify-between">
-        <h1 className="text-lg font-bold break-words">{moduleData.pavadinimas}</h1>
-      </div>
-      
-      <InputWrap className="w-full">
-        <Label className="font-bold">Modulio aprašymas:</Label>
-        <p className="text-md break-words">{moduleData.aprasymas}</p>
-      </InputWrap>
-      <InputWrap className="w-full">
-        <Label className="font-bold">Kreditų skaičius:</Label>
-        <p className="text-md break-words">{moduleData.kreditai}</p>
-      </InputWrap>
-      <InputWrap className="w-full">
-        <Label className="font-bold">Modulio kalba:</Label>
-        <p className="text-md break-words">{moduleData.kalba}</p>
-      </InputWrap>
-      <Link href="/moduliai" className="mt-4 underline text-blue-600">
-          Atgal
+  <div className="mt-6 lg:w-3/4 max-w-3xl w-full mx-auto items-center gap-4">
+    <div className="w-full mb-4">
+      <h1 className="text-2xl font-bold">{moduleData.pavadinimas}</h1>
+    </div>
+
+    <InputWrap className="w-full">
+      <Label className="font-bold text-blue-600">Modulio aprašymas:</Label>
+      <p className="text-sm">{moduleData.aprasymas}</p>
+    </InputWrap>
+
+    <InputWrap className="w-full">
+      <Label className="font-bold text-blue-600">Kreditų skaičius:</Label>
+      <p className="text-sm">{moduleData.kreditai}</p>
+    </InputWrap>
+
+    <InputWrap className="w-full">
+      <Label className="font-bold text-blue-600">Modulio kalba:</Label>
+      <p className="text-sm">{moduleData.kalba}</p>
+    </InputWrap>
+
+    <div className="flex flex-col space-y-2 mt-4">
+      <Link href="/moduliai" className="text-xl font-semibold hover:text-red-700">
+        Atgal
       </Link>
-      <Link href={`/moduliai/${moduleData.id}/ai`} className="text-1xl font-semibold hover:text-red-700">
-            Sugeneruoti modulio antraštę
+
+      <Link href={`/moduliai/${moduleData.id}/ai`} className="text-xl font-semibold hover:text-red-700">
+        Sugeneruoti modulio antraštę
       </Link>
+
       {isModuleMaker && (
-      <Link href={`/moduliai/${moduleData.id}/edit`} className="text-1xl font-semibold hover:text-red-700">
-            Koreguoti modulio informaciją
-      </Link>
+        <Link href={`/moduliai/${moduleData.id}/edit`} className="text-xl font-semibold hover:text-red-700">
+          Koreguoti modulio informaciją
+        </Link>
       )}
+
       {isAdmin && (
-      <Link href={`/moduliai/${moduleData.id}/remove`} className="text-1xl font-semibold hover:text-red-700">
-      Modulio ištrinimas
-      </Link>
+        <Link href={`/moduliai/${moduleData.id}/remove`} className="text-xl font-semibold hover:text-red-700">
+          Modulio ištrinimas
+        </Link>
       )}
-      <Link href={`/moduliai/${moduleData.id}/feedback`} className="text-1xl font-semibold hover:text-red-700">
-            Modulio atsiliepimas
+
+      <Link href={`/moduliai/${moduleData.id}/feedback`} className="text-xl font-semibold hover:text-red-700">
+        Modulio atsiliepimas
       </Link>
-      <Link href={`/moduliai/${moduleData.id}/review`} className="text-1xl font-semibold hover:text-red-700">
-            Atsiliepimai apie modulius
+
+      <Link href={`/moduliai/${moduleData.id}/review`} className="text-xl font-semibold hover:text-red-700">
+        Atsiliepimai apie modulius
       </Link>
+    </div>
   </div>
 );
+
 }
 
 
