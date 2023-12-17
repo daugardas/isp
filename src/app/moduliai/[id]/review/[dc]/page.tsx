@@ -4,6 +4,7 @@ import Link from "next/link";
 import Label from "@/components/Label";
 import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 interface AtsiliepimasData {
   id: number;
@@ -21,7 +22,14 @@ interface AtsiliepimasData {
 export default async function Page({
   params,
 }: Readonly<{ params: { id: string; dc: string } }>) {
+  const session = await auth();
   const { id, dc } = params;
+
+  
+
+  if (!session || !session.user) {
+    redirect("/");
+}
 
   const reviewData = await prisma.atsiliepimas.findUnique({
     where: {
@@ -40,7 +48,6 @@ export default async function Page({
     return <div>Atsiliepimas nerastas</div>;
   }
 
-  const session = await auth();
 
   return (
     <div className="flex items-center justify-center h-screen w-screen">
