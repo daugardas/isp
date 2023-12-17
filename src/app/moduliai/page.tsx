@@ -1,24 +1,17 @@
-import { auth } from "@/lib/auth";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import prisma from "@/lib/db";
+import Moduliai from "./Moduliai";
 
+/**
+ * Renders the page component with a list of users.
+ * @returns JSX element with the Naudotojai component.
+ */
 export default async function Page() {
-  const id = 1;
-  const session = await auth();
-  if (!session) redirect("/auth/signin");
-  return (
-    <div className="flex flex-col h-screen w-screen">
-      <div className="bg-blue-500 text-white p-4">
-        <h1 className="text-2xl font-semibold text-center">Modulių sąrašas</h1>
-      </div>
-      <div className="p-2 text-center items-center text-1xl font-semibold">
-        <Link href={`/moduliai/${id}`} className="mt-4 underline text-blue-600 p-1">Matematika1</Link>
-      </div>
-      <div className="bg-blue-500 text-white p-4 mt-auto">
-        <div className="text-center">
-          <Link href="/moduliai/add" className="text-1xl font-semibold hover:text-red-700">Pridėti modulį</Link>
-        </div>
-      </div>      
-    </div>
-  );
+  const moduliai = await prisma.modulis.findMany({
+    select: {
+      id: true,
+      pavadinimas: true,
+    },
+  });
+
+  return <Moduliai moduliai={moduliai} />;
 }

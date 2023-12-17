@@ -76,9 +76,25 @@ NODEMAILER_PASSWORD="xxxx xxxx xxxx xxxx"
 NODEMAILER_EMAIL="sender@email"
 ```
 
+.env.local reikia papildyti CHAT GPT API raktu, kuris leidžia kreiptis į patį CHATGPTAPI endpointą:
+```env
+API_KEY="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"
+```
+
 pvz:
 NODEMAILER_PASSWORD="aaaa aaaa aaaa aaaa" - gautas slaptažodis iš [čia](https://myaccount.google.com/apppasswords).
 NODEMAILER_EMAIL="sender@email" - jūsų el. paštas.
 
 
 Padarius šiuos pakeitimus, reikia iš naujo paleisti serverį.
+
+### Paruošti Modulio pradinius duomenis darbui (Daugardui!!!!!!!!!!!!!!!!!!!!)
+```
+Fakultetas: IF, Vardenis, Pavardenis, Provardenis, Propavardenis, AprašymasA, istorijaIF
+Fakultetas: Matematika, Vardenis, Pavardenis, Provardenis, Propavardenis, AprašymasA, istorijaMatematika
+Fakultetas: Fizikos, Vardenis, Pavardenis, Provardenis, Propavardenis, AprašymasA, istorijaFizikos
+Kryptis: Informatika,AprašymasA, fakultetasid(IF)
+Kryptis: Tikslioji matematika,AprašymasA, fakultetasid(Matematika)
+Kryptis: Inžinerinė fizika,AprašymasA, fakultetasid(Fizikos)
+```
+

@@ -1,44 +1,146 @@
+import InputWrap from "@/components/InputWrap";
+import Link from "next/link";
+import Label from "@/components/Label";
+import prisma from "@/lib/db";
+import { auth } from "@/lib/auth";
+import { $Enums } from "@prisma/client";
 
-import Link from 'next/link';
+interface ModuleData {
+  id: number;
+  pavadinimas: string;
+  aprasymas: string;
+  kalba: "lietuviu" | "anglu"; // Adjust based on your enum values
+  kreditai: number;
+  kryptisId: number;
+  destytojasId: number | null;
+}
 
-export default async function Home() {
-  const id = 1;
+/**
+ * Renders a page for a specific module.
+ *
+ * @param props.params - The URL parameters.
+ * @param props.params.id - The ID of the module to display.
+ * @returns - The rendered page.
+ */
+export default async function Page({
+  params,
+}: Readonly<{ params: { id: string } }>) {
+  const { id } = params;
+
+  const moduleData = await prisma.modulis.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  const session = await auth();
+  let loggedIn = false;
+  let isAdmin = false;
+  let isModuleMaker = true;
+
+  if (session) {
+    loggedIn = true;
+    const userId = session.user?.id;
+    if (userId) {
+      const numericUserId = parseInt(userId, 10); // Ensure userId is a number
+      const userData = await prisma.naudotojas.findUnique({
+        where: {
+          id: numericUserId,
+        },
+      });
+
+      isAdmin = userData?.tipas === $Enums.NaudotojoTipas.administratorius;
+
+      // const reviewData = await prisma.atsiliepimas.findFirst({
+      //   where: {
+      //     autoriusId: numericUserId,
+      //     modulisId: parseInt(id)
+      //   },
+      // });
+
+      // if(reviewData != null)
+      // {
+      //   isReviewMaker = true;
+      // }
+      // else
+      // {
+      //   isReviewMaker = false;
+      // }
+    } else {
+      return <div>Vartotojas nerastas</div>;
+    }
+  }
+
+  if (!moduleData) {
+    return <div>Modulis nerastas</div>;
+  }
   return (
-    <div className="flex flex-col h-screen w-screen">
-      <div className="p-4 bg-blue-500 w-full text-center flex flex-col items-center text-2xl font-semibold text-red-600 mb-1">
-        <h1>Matematika1</h1>
+    <div className="mt-6 lg:w-3/4 max-w-3xl w-full mx-auto items-center gap-4">
+      <div className="w-full mb-4">
+        <h1 className="text-2xl font-bold">{moduleData.pavadinimas}</h1>
       </div>
-      <div className="flex flex-col items-center text-center text-1xl text-white-200 mb-2">
-        <p>Modulio kodas:	P130B001</p>
-        <p>Modulio pavadinimas: Matematika 1</p>
-        <p>Modulio koordinuojantis dėstytojas: dr. LUKŠYS Kęstutis</p>
-        <p>Modulio tikslas: Suteikti žinių apie pagrindines analizinės geometrijos, tiesinės algebros, vieno ir kelių kintamųjų funkcijų diferencialinio skaičiavimo sąvokas, teiginius, metodus bei tų metodų taikymą gamtos, technikos ir socialiniuose moksluose, matematinių modelių sudarymo pradmenis; supažindinti su pagrindinėmis matematikos programinės įrangos galimybėmis, reikalingomis uždaviniams spręsti.</p>
-        <p>Modulio aprašymas: Įgyjama žinių apie matricų, determinantų savybes ir veiksmus su jais, įsisavinami tiesinių lygčių sistemų sprendimo būdai, vektorių veiksmai ir jų taikymai. Gebama sudaryti plokštumų ir tiesių erdvėje lygtis, analizuoti antros eilės kreives, apskaičiuoti funkcijų ribas, nustatyti funkcijų tolydumą, parinkti vieno ir kelių kintamųjų funkcijų diferencialinio skaičiavimo metodus, pademonstruoti matematikos metodų taikymus realių uždavinių sprendimui, suprasti funkcijų tyrimo metodus ir braižyti grafikus. Dalis uždavinių sprendžiama naudojantis matematikos programine įranga.</p>
-      </div>
-      <div className="flex flex-col items-center text-2xl font-semibold text-blue-600 mb-1">
-        <h1>Atsiliepimai</h1>
-      </div>
-      <Link href={`/moduliai/${id}/review`} className="flex flex-col items-center mt-2 underline text-red-200">Atsiliepimas apie moduli</Link>
-      <div className="flex flex-col items-center h-screen justify-center">
-        <div className="flex flex-col items-center justify-bottom h-screen">
-          <Link href="/moduliai" className="mt-4 underline text-blue-600">Atgal</Link>
-        </div>
-      </div>
-      <div className="bg-blue-500 text-white p-4 w-screen">
-        <ul className="flex flex-wrap justify-center">
-          <li className="mx-4">
-            <Link href="/moduliai/ai" className="text-1xl font-semibold hover:text-red-700">Sugeneruoti modulio antraštę</Link>
-          </li>
-          <li className="mx-4">
-            <Link href="/moduliai/edit" className="text-1xl font-semibold hover:text-red-700">Koreguoti modulį</Link>
-          </li>
-          <li className="mx-4">
-            <Link href="/moduliai/feedback" className="text-1xl font-semibold hover:text-red-700">Pridėti atsiliepimą</Link>
-          </li>
-          <li className="mx-4">
-            <Link href="/moduliai/remove" className="text-1xl font-semibold hover:text-red-700">Pašalintį modulį</Link>
-          </li>
-        </ul>
+
+      <InputWrap className="w-full">
+        <Label className="font-bold text-blue-600">Modulio aprašymas:</Label>
+        <p className="text-sm">{moduleData.aprasymas}</p>
+      </InputWrap>
+
+      <InputWrap className="w-full">
+        <Label className="font-bold text-blue-600">Kreditų skaičius:</Label>
+        <p className="text-sm">{moduleData.kreditai}</p>
+      </InputWrap>
+
+      <InputWrap className="w-full">
+        <Label className="font-bold text-blue-600">Modulio kalba:</Label>
+        <p className="text-sm">{moduleData.kalba}</p>
+      </InputWrap>
+
+      <div className="flex flex-col space-y-2 mt-4">
+        <Link
+          href="/moduliai"
+          className="text-xl font-semibold hover:text-red-700"
+        >
+          Atgal
+        </Link>
+
+        <Link
+          href={`/moduliai/${moduleData.id}/ai`}
+          className="text-xl font-semibold hover:text-red-700"
+        >
+          Sugeneruoti modulio antraštę
+        </Link>
+
+        {isModuleMaker && (
+          <Link
+            href={`/moduliai/${moduleData.id}/edit`}
+            className="text-xl font-semibold hover:text-red-700"
+          >
+            Koreguoti modulio informaciją
+          </Link>
+        )}
+
+        {isAdmin && (
+          <Link
+            href={`/moduliai/${moduleData.id}/remove`}
+            className="text-xl font-semibold hover:text-red-700"
+          >
+            Modulio ištrinimas
+          </Link>
+        )}
+
+        <Link
+          href={`/moduliai/${moduleData.id}/feedback`}
+          className="text-xl font-semibold hover:text-red-700"
+        >
+          Modulio atsiliepimas
+        </Link>
+
+        <Link
+          href={`/moduliai/${moduleData.id}/review`}
+          className="text-xl font-semibold hover:text-red-700"
+        >
+          Atsiliepimai apie modulius
+        </Link>
       </div>
     </div>
   );
