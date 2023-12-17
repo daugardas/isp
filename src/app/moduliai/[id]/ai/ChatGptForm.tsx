@@ -4,8 +4,6 @@ import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { DestomaKalba, IvertinimoTipas } from "@prisma/client";
 
-const API_KEY = "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";
-
 interface ModuleProps {
   moduliai: {
     id: number;
@@ -23,19 +21,16 @@ async function generateModuleTitle(name: string): Promise<string> {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${API_KEY}`, 
+      Authorization: `Bearer ${process.env.API_KEY}`, 
     },
     body: JSON.stringify({
       prompt: name,
       model: 'text-gpt-3.5-turbo',
     }),
   });
-
   const data = await response.json();
   console.log('ChatGPT API Response:', data); 
-
   const generatedTitle = data.choices[0]?.text; 
-
   return generatedTitle || `Generated Title for ${name}`;
 }
 
@@ -47,7 +42,6 @@ export default function ChatGptForm({ moduliai }: ModuleProps) {
     if (moduliai.length > 0) {
       const moduleName = moduliai[0].pavadinimas;
 
-      // Call ChatGpt function and update the state with the generated title
       generateModuleTitle(moduleName).then((title) => {
         setGeneratedTitle(title);
       });

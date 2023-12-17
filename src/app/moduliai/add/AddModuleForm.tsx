@@ -49,18 +49,7 @@ export default function AddModuleForm() {
   const [kryptisId, setKryptisId] = useState<number | null>(null); // Add this line
 
 
-  const fetchData = async () => {
-    try {
-      const kryptisOptions = await fetchKryptisOptions();
-
-      console.log('Kryptis pavadinimas options:', kryptisOptions);
-
-      setKryptisOptions(kryptisOptions);
-    } catch (error) {
-      console.error('Error fetching Kryptis pavadinimas options:', error);
-    }
-  };
-
+  
   useEffect(() => {
   const fetchData = async () => {
     try {

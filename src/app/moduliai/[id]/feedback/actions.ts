@@ -14,13 +14,15 @@ export async function addAtsiliepimas(moduleId: string, formData: FormData) {
     }
 
 
-    const tipas = formData.get("tipas") as IvertinimoTipas;
     const atsiliepimas = formData.get("atsiliepimas") as string;
     const data = new Date(); 
     const autoriusId = session.user.id;
+    console.log(atsiliepimas);
+    console.log(data);
+    console.log(autoriusId);
 
     // Validating required fields
-    if (!tipas || atsiliepimas === "" || isNaN(parseInt(moduleId))) {
+    if (atsiliepimas === "" || isNaN(parseInt(moduleId))) {
         return {
             error: "Visi laukai privalomi, nebent nenori pridėti)",
         };
@@ -29,7 +31,7 @@ export async function addAtsiliepimas(moduleId: string, formData: FormData) {
     try {
         await prisma.atsiliepimas.create({
             data: {
-                tipas: tipas,
+                tipas: IvertinimoTipas.modulio,
                 atsiliepimas: atsiliepimas,
                 data: data,
                 autoriusId: parseInt(autoriusId),

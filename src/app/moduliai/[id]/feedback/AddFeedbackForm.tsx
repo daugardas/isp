@@ -21,11 +21,10 @@ interface AddFeedbackFormProps {
 }
 
 export default function AddFeedbackForm({ moduleId }: AddFeedbackFormProps) {
-    const [tipas, setTipas] = useState<IvertinimoTipas | "">("");
+    const [tipas, setTipas] = useState<IvertinimoTipas>(IvertinimoTipas.modulio);
     const [atsiliepimasText, setAtsiliepimasText] = useState("");
 
   const handleFormAction = async (prevState: any, formData: FormData) => {
-    formData.set("tipas", tipas as IvertinimoTipas);
     formData.set("atsiliepimas", atsiliepimasText);
 
     const response = await addAtsiliepimas(moduleId, formData);
@@ -50,18 +49,6 @@ export default function AddFeedbackForm({ moduleId }: AddFeedbackFormProps) {
   return (
     <div className="mt-6 w-8/12 max-w-xs flex flex-col items-center gap-4 dark:bg-gray-800 text-black p-4 rounded-md">
       <Form action={formAction}>
-        <InputWrap>
-          <Label htmlFor="tipas">Tipas:</Label>
-          <select
-            name="tipas"
-            value={tipas}
-            onChange={(e) => setTipas(e.target.value as IvertinimoTipas)}
-            required
-          >
-            <option value={IvertinimoTipas.modulio}>Modulio</option>
-            {/* Add more options based on your IvertinimoTipas enum */}
-          </select>
-        </InputWrap>
         <InputWrap>
           <Label htmlFor="atsiliepimas">Atsiliepimas:</Label>
           <Input

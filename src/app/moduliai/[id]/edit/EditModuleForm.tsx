@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent  } from 'react';
 import { redirect } from "next/navigation";
 import Link from 'next/link';
 import Form from "@/components/Form";
@@ -11,8 +11,9 @@ import Input from "@/components/Input";
 import { useFormState } from "react-dom";
 import { Modulis , DestomaKalba} from "@prisma/client";
 import Button from "@/components/Button";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/SubmitButton";
+import { fetchKryptisOptions } from './operations';
 
 const initialFormState = {
   message: null,
@@ -24,14 +25,36 @@ interface EditModuleFormProps {
   modulis: Modulis;
 }
 
+interface Kryptis {
+  id: number;
+  pavadinimas: string;
+}
+
+
+const defaultModulis = {
+  pavadinimas: "",
+  aprasymas: "",
+  kalba: "",
+  kreditai: 0,
+  kryptisId: 0,
+  destytojasId: null,
+};
+
 export default function EditModuleForm({ params, modulis }: EditModuleFormProps) {
+  const router = useRouter();
+
+
+
+
   const { id } = params;
   const [selectedKalba, setSelectedKalba] = useState<DestomaKalba>(modulis.kalba);
 
   const handleFormAction = async (prevState: any, formData: FormData) => {
-    formData.set("kalba", selectedKalba.toString()); // Convert enum to string before setting in FormData
+    formData.set("kalba", selectedKalba); // Convert enum to string before setting in FormData
     const response = await editModule(id, formData); // Pass id to editModule
     console.log(response);
+    router.refresh();
+    
     if (response.message) {
       return {
         ...prevState,
@@ -49,9 +72,33 @@ export default function EditModuleForm({ params, modulis }: EditModuleFormProps)
 
   const [state, formAction] = useFormState(handleFormAction, initialFormState);
 
+  const [kryptisPavadinimas, setKryptisPavadinimas] = useState<string>("");
+  const [kryptisOptions, setKryptisOptions] = useState<Kryptis[]>([]);
+  const [kryptisId, setKryptisId] = useState<number>(modulis.kryptisId); // Add this line
+
+
+
+
+
+  
   useEffect(() => {
-    // If you need any side effects on component mount, you can put them here
-  }, []); // Empty dependency array means this effect runs once when the component mounts
+  const fetchData = async () => {
+    try {
+      const options = await fetchKryptisOptions();
+      setKryptisOptions(options);
+    } catch (error) {
+      console.error('Error fetching Kryptis pavadinimas options:', error);
+    }
+  };
+
+  fetchData();
+}, []);
+
+
+const handleKryptisPavadinimasChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  setKryptisId(parseInt(event.target.value));
+};
+
 
   return (
     <div className="mt-6 w-8/12 max-w-xs flex flex-col items-center gap-4 dark:bg-gray-800 text-black p-4 rounded-md">
@@ -96,14 +143,24 @@ export default function EditModuleForm({ params, modulis }: EditModuleFormProps)
           />
         </InputWrap>
         <InputWrap>
-          <Label htmlFor="kryptisId">Krypties ID:</Label>
-          <Input
-            type="number"
-            name="kryptisId"
-            defaultValue={modulis.kryptisId}
-            required
-          />
-        </InputWrap>
+  <Label htmlFor="kryptisId">Kryptis:</Label>
+  <select
+    name="kryptisId"
+    onChange={(e) => handleKryptisPavadinimasChange(e)} // Continue using handleKryptisPavadinimasChange
+    required
+    className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md"
+    value={kryptisId} // Use the selected value here
+  >
+    <option value="" disabled>
+      Pasirinkite Kryptį
+    </option>
+    {kryptisOptions.map((kryptis) => (
+      <option key={kryptis.id} value={kryptis.id}>
+        {kryptis.pavadinimas}
+      </option>
+    ))}
+  </select>
+</InputWrap>
         {state && state.error && (
           <div className="text-red-600">{state.error}</div>
         )}
