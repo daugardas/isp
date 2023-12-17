@@ -87,3 +87,14 @@ NODEMAILER_EMAIL="sender@email" - jūsų el. paštas.
 
 
 Padarius šiuos pakeitimus, reikia iš naujo paleisti serverį.
+
+### Paruošti Modulio pradinius duomenis darbui (Daugardui!!!!!!!!!!!!!!!!!!!!)
+```
+Fakultetas: IF, Vardenis, Pavardenis, Provardenis, Propavardenis, AprašymasA, istorijaIF
+Fakultetas: Matematika, Vardenis, Pavardenis, Provardenis, Propavardenis, AprašymasA, istorijaMatematika
+Fakultetas: Fizikos, Vardenis, Pavardenis, Provardenis, Propavardenis, AprašymasA, istorijaFizikos
+Kryptis: Informatika,AprašymasA, fakultetasid(IF)
+Kryptis: Tikslioji matematika,AprašymasA, fakultetasid(Matematika)
+Kryptis: Inžinerinė fizika,AprašymasA, fakultetasid(Fizikos)
+```
+
