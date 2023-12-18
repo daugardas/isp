@@ -4,8 +4,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-    const session = await auth();
 
+
+    const session = await auth();
     if (!session || !session.user) {
         redirect("/");
     }

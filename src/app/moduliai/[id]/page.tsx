@@ -4,6 +4,8 @@ import Label from "@/components/Label";
 import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { $Enums } from "@prisma/client";
+import { redirect } from "next/navigation";
+  
 
 interface ModuleData {
   id: number;
@@ -27,6 +29,8 @@ export default async function Page({
 }: Readonly<{ params: { id: string } }>) {
   const { id } = params;
 
+  
+
   const moduleData = await prisma.modulis.findUnique({
     where: {
       id: parseInt(id),
@@ -34,6 +38,11 @@ export default async function Page({
   });
 
   const session = await auth();
+
+  
+    if (!session || !session.user) {
+        redirect("/");
+    }
   let loggedIn = false;
   let isAdmin = false;
   let isModuleMaker = true;
@@ -107,7 +116,7 @@ export default async function Page({
           href={`/moduliai/${moduleData.id}/ai`}
           className="text-xl font-semibold hover:text-red-700"
         >
-          Sugeneruoti modulio antraštę
+          Chat GPT API modulio aprašymo generavimas
         </Link>
 
         {isModuleMaker && (
