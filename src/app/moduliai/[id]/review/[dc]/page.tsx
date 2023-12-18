@@ -73,7 +73,7 @@ export default async function Page({
           </InputWrap>
           <div className="mt-6">
             <Link
-              href={`/moduliai/${reviewData.id}/review`}
+              href={`/moduliai/${reviewData.modulisId}/review`}
               className="underline text-blue-600"
             >
               Atgal

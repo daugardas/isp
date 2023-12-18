@@ -4,6 +4,7 @@ import Link from "next/link";
 import prisma from "@/lib/db";
 import { MinimizedAtsiliepimas } from "../../../api/atsiliepimai/search/route";
 import Search from "./Search";
+import { useRouter } from "next/navigation";
 
 type AtsiliepimaiProps = {
   atsiliepimai: MinimizedAtsiliepimas[];
