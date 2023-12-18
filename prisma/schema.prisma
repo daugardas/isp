@@ -143,20 +143,23 @@ model Destytojas {
   destytojo_tipas    DestytojoTipas
   destytojo_laipsnis DestytojoLaipsnis
   destytojo_pareigos DestytojoPareigos[]
-  fakultetas         Fakultetas          @relation(fields: [fakultetasId], references: [id])
-  fakultetasId       Int
+  fakultetas         Fakultetas?         @relation(fields: [fakultetasId], references: [id])
+  fakultetasId       Int?
   moduliai           Modulis[]
+  atsiliepimas       Atsiliepimas[]
 }
 
 model Atsiliepimas {
-  id           Int             @id @default(autoincrement())
-  tipas        IvertinimoTipas
-  atsiliepimas String
-  data         DateTime
-  autorius     Naudotojas      @relation(fields: [autoriusId], references: [id])
-  autoriusId   Int
-  modulis      Modulis         @relation(fields: [modulisId], references: [id])
-  modulisId    Int
+  id              Int              @id @default(autoincrement())
+  tipas           IvertinimoTipas
+  atsiliepimas    String
+  data            DateTime
+  autorius        Naudotojas       @relation(fields: [autoriusId], references: [id])
+  autoriusId      Int
+  destytojas      Destytojas?      @relation(fields: [destytojasId], references: [id])
+  destytojasId    Int?
+  modulis         Modulis?         @relation(fields: [modulisId], references: [id])
+  modulisId       Int?
 }
 
 model Komentaras {
