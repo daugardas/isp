@@ -47,7 +47,7 @@ export default function AddFeedbackForm({ moduleId }: AddFeedbackFormProps) {
   }, []); // Empty dependency array means this effect runs once when the component mounts
 
   return (
-    <div className="mt-6 w-8/12 max-w-xs flex flex-col items-center gap-4 dark:bg-gray-800 text-black p-4 rounded-md">
+    <div className="mt-6 w-8/12 max-w-xs flex flex-col items-center gap-4 bg-gray-800 text-black p-4 rounded-md">
       <Form action={formAction}>
         <InputWrap>
           <Label htmlFor="atsiliepimas">Atsiliepimas:</Label>

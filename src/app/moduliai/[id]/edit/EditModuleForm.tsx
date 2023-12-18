@@ -97,7 +97,7 @@ export default function EditModuleForm({
   };
 
   return (
-    <div className="mt-6 w-8/12 max-w-xs flex flex-col items-center gap-4 dark:bg-gray-800 text-black p-4 rounded-md">
+    <div className="mt-6 w-8/12 max-w-xs flex flex-col items-center gap-4 bg-gray-800 text-black p-4 rounded-md">
       <Form action={formAction}>
         <InputWrap>
           <Label htmlFor="pavadinimas">Pavadinimas:</Label>
@@ -144,7 +144,7 @@ export default function EditModuleForm({
             name="kryptisId"
             onChange={(e) => handleKryptisPavadinimasChange(e)} // Continue using handleKryptisPavadinimasChange
             required
-            className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md"
+            className="bg-gray-700 text-white px-3 py-2 rounded-md"
             value={kryptisId} // Use the selected value here
           >
             <option value="" disabled>
