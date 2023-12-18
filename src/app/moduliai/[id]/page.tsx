@@ -141,14 +141,14 @@ export default async function Page({
           href={`/moduliai/${moduleData.id}/feedback`}
           className="text-xl font-semibold hover:text-red-700"
         >
-          Modulio atsiliepimas
+          Modulio atsiliepimo kūrimas
         </Link>
 
         <Link
           href={`/moduliai/${moduleData.id}/review`}
           className="text-xl font-semibold hover:text-red-700"
         >
-          Atsiliepimai apie modulius
+          Atsiliepimai apie modulį
         </Link>
       </div>
     </div>

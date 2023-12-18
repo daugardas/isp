@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { deleteModule } from "./actions";
 import Button from "@/components/Button";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/SubmitButton";
 
 interface RemoveModuleFormProps {
@@ -17,18 +17,23 @@ const initialFormState = {
   error: null as string | null,
 };
 
-const RemoveModuleForm: React.FC<RemoveModuleFormProps> = ({ moduleId }) => {
-  const [state, setState] = useState(initialFormState);
 
+const RemoveModuleForm: React.FC<RemoveModuleFormProps> = ({ moduleId }) => {
+
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.refresh();
+  };
+  const [state, setState] = useState(initialFormState);
   const handleFormAction = async () => {
     try {
       const response = await deleteModule(moduleId);
-
       if (response.message) {
         setState({
           message: response.message,
           error: null,
         });
+        handleButtonClick();
       } else {
         setState({
           message: null,

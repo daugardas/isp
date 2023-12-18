@@ -1,15 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Button from "@/components/Button";
 import prisma from "@/lib/db";
 import { MinimizedAtsiliepimas } from "../../../api/atsiliepimai/search/route";
 import Search from "./Search";
+import { useRouter } from "next/navigation";
 
 type AtsiliepimaiProps = {
   atsiliepimai: MinimizedAtsiliepimas[];
 };
 
 export default function Atsiliepimai({ atsiliepimai }: AtsiliepimaiProps) {
+  const router = useRouter();
+
   const [search, setSearch] = useState("");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +43,14 @@ export default function Atsiliepimai({ atsiliepimai }: AtsiliepimaiProps) {
           ))}
         {/* Single "Atgal" link outside the map loop */}
         <div className="w-full">
-          <Link href={`/moduliai`}>Atgal</Link>
+        <Button
+            type="button"
+            onClick={() => router.back()
+            }
+            className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-md"
+          >
+            Atgal
+          </Button>
         </div>
       </div>
     </div>

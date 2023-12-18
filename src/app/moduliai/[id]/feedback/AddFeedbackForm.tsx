@@ -10,6 +10,7 @@ import { useFormState } from "react-dom";
 import { DestomaKalba, IvertinimoTipas } from "@prisma/client";
 import SubmitButton from "@/components/SubmitButton";
 import { addAtsiliepimas } from "./actions";
+import { useRouter } from "next/navigation";
 
 const initialFormState = {
   message: null,
@@ -21,6 +22,11 @@ interface AddFeedbackFormProps {
 }
 
 export default function AddFeedbackForm({ moduleId }: AddFeedbackFormProps) {
+
+  const router = useRouter();
+
+
+
   const [tipas, setTipas] = useState<IvertinimoTipas>(IvertinimoTipas.modulio);
   const [atsiliepimasText, setAtsiliepimasText] = useState("");
 
@@ -30,7 +36,11 @@ export default function AddFeedbackForm({ moduleId }: AddFeedbackFormProps) {
     const response = await addAtsiliepimas(moduleId, formData);
 
     if (response.message) {
-      redirect(`/moduliai/${moduleId}`);
+      return {
+        ...prevState,
+        message: response.message,
+        error: null,
+      };
     } else {
       return {
         ...prevState,

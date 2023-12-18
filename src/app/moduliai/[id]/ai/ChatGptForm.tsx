@@ -15,7 +15,7 @@ interface ModuleProps {
 }
 
 export default function ChatGptForm({ moduliai }: ModuleProps) {
-  const fixedInput = `Sugeneruok ${moduliai[0].pavadinimas} aprašymą, iki 30 žodžių`;
+  const fixedInput = `Sugeneruok ${moduliai[0].pavadinimas} KTU universiteto modulio aprašymą, iki 30 žodžių`;
 
   const [isLoading, setIsLoading] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
