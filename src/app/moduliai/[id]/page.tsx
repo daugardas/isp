@@ -116,7 +116,7 @@ export default async function Page({
           href={`/moduliai/${moduleData.id}/ai`}
           className="text-xl font-semibold hover:text-red-700"
         >
-          Sugeneruoti modulio antraštę
+          Chat GPT API modulio aprašymo generavimas
         </Link>
 
         {isModuleMaker && (
