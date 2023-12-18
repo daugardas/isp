@@ -6,20 +6,21 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function PranesimaiForm({
-  naudotojai, tipai
+  naudotojai,
+  tipai,
 }: {
   naudotojai: Naudotojas[];
   tipai: PranesimoTipas[];
 }) {
-
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [selectedId, setSelectedId] = useState<number>(naudotojai[0].id);
   /* const [pranesimoTipas, setTipas] = useState<string>(tipai[0]); */
-  const [pranesimoTipas, setTipas] = useState<string>(tipai.length > 0 ? tipai[0] : '');
+  const [pranesimoTipas, setTipas] = useState<string>(
+    tipai.length > 0 ? tipai[0] : ""
+  );
   const router = useRouter();
 
-  const handleFormSubmit = async () =>  {
-    
+  const handleFormSubmit = async () => {
     console.log("Pridedamas pranesimas:", message);
 
     const res = await fetch("/api/pranesimai/send", {
@@ -27,18 +28,20 @@ export default function PranesimaiForm({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ messageText: message, messageType: pranesimoTipas, userID: selectedId}),
+      body: JSON.stringify({
+        messageText: message,
+        messageType: pranesimoTipas,
+        userID: selectedId,
+      }),
     });
 
     if (!res.ok) {
-      console.log("nepavyko")
+      console.log("nepavyko");
     } else {
-
       const body = await res.json();
       console.log(body);
       router.refresh();
     }
-    
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -49,9 +52,16 @@ export default function PranesimaiForm({
     <form onSubmit={handleFormSubmit} className="mt-4 !text-white">
       <div className="mb-4">
         <label className="block text-lg">Gavėjas</label>
-        <select className="text-black" name='gavejas' value={selectedId} onChange={(e) => setSelectedId(Number(e.target.value))}>
+        <select
+          className="text-black"
+          name="gavejas"
+          value={selectedId}
+          onChange={(e) => setSelectedId(Number(e.target.value))}
+        >
           {naudotojai.map((naudotojas) => (
-            <option key={naudotojas.id} value={naudotojas.id}>{naudotojas.vardas}</option>
+            <option key={naudotojas.id} value={naudotojas.id}>
+              {naudotojas.vardas}
+            </option>
           ))}
         </select>
       </div>
@@ -70,7 +80,7 @@ export default function PranesimaiForm({
           ))}
         </select>
       </div>
-      <div className="mb-4">
+      <div className="mb-3">
         <label className="block text-lg">Žinutė</label>
         <textarea
           value={message}
@@ -82,14 +92,26 @@ export default function PranesimaiForm({
       </div>
 
       <div className="flex items-center justify-center">
-      <button type="submit" disabled={message.length === 0} className="bg-red-800 hover:bg-blue-600 transition duration-400 py-3 px-6 rounded-md">
+        <button
+          type="submit"
+          disabled={message.length === 0}
+          className="bg-red-800 hover:bg-blue-600 transition duration-400 py-3 px-6 rounded-md mr-20"
+        >
           Siųsti
         </button>
+        <a href="./" className="text-white text-decoration-none">
+          <button
+            type="button" // Set type to "button" since it's not a form submission
+            className="bg-red-800 hover:bg-blue-600 transition duration-400 py-3 px-6 rounded-md ml-20"
+          >
+            Grįžti atgal
+          </button>
+        </a>
       </div>
 
       <div className="flex flex-col items-left justify-center h-screen text-gray-500">
         {/* Your existing Link component... */}
       </div>
     </form>
-  )
+  );
 }
