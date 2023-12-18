@@ -54,7 +54,7 @@ export default function Pranesimai({ messages, isAdministrator }: PranesimaiProp
 
         {isAdministrator && (
           <Link href="/pranesimai/send" className="text-1xl font-semibold hover:text-red-700">
-            Siūsti pranešimą
+            Siųsti pranešimą
           </Link>
         )}
         <Link href="/pranesimai/delete" className="text-1xl font-semibold hover:text-red-700">Trinti pranešimą</Link>
