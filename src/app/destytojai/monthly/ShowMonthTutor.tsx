@@ -1,5 +1,11 @@
-import InputWrap from "@/components/InputWrap";
+import React, { useState } from "react";
+import Form from "@/components/Form";
+import { redirect } from "next/navigation";
 import Link from "next/link";
+import Button from "@/components/Button";
+import { useRouter } from "next/router";
+import SubmitButton from "@/components/SubmitButton";
+import InputWrap from "@/components/InputWrap";
 import Label from "@/components/Label";
 import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
@@ -19,21 +25,17 @@ interface TutorData {
   fakultetasId: number | null;
 }
 
-/**
- * Renders a page for a specific module.
- *
- * @param props.params - The URL parameters.
- * @param props.params.id - The ID of the module to display.
- * @returns - The rendered page.
- */
-export default async function Page({
-  params,
-}: Readonly<{ params: { id: string } }>) {
-  const { id } = params;
+const initialFormState = {
+  message: null as string | null,
+  error: null as string | null,
+};
+
+export default async function Page(params: {tutorId: number}){
+  const { tutorId } = params;
 
   const tutorData = await prisma.destytojas.findUnique({
     where: {
-      id: parseInt(id),
+      id: parseInt(tutorId),
     },
   });
 
@@ -78,6 +80,7 @@ export default async function Page({
   if (!tutorData) {
     return <div>Dėstytojas nerastas</div>;
   }
+
   return (
     <div className="mt-6 lg:w-3/4 max-w-3xl w-full mx-auto items-center gap-4">
       <div className="w-full mb-4">
@@ -123,39 +126,7 @@ export default async function Page({
         >
           Atgal
         </Link>
-
-        {isTutorMaker && (
-          <Link
-            href={`/destytojai/${tutorData.id}/edit`}
-            className="text-xl font-semibold hover:text-red-700"
-          >
-            Koreguoti dėstytojo informaciją
-          </Link>
-        )}
-
-        {isAdmin && (
-          <Link
-            href={`/destytojai/${tutorData.id}/remove`}
-            className="text-xl font-semibold hover:text-red-700"
-          >
-            Dėstytojo ištrinimas
-          </Link>
-        )}
-
-        <Link
-          href={`/destytojai/${tutorData.id}/feedback`}
-          className="text-xl font-semibold hover:text-red-700"
-        >
-          Dėstytojo atsiliepimas
-        </Link>
-
-        <Link
-          href={`/destytojai/${tutorData.id}/review`}
-          className="text-xl font-semibold hover:text-red-700"
-        >
-          Atsiliepimai apie dėstytojus
-        </Link>
       </div>
     </div>
   );
-}
+};

@@ -30,7 +30,7 @@ export default function AddFeedbackForm({ tutorId }: AddFeedbackFormProps) {
     const response = await addAtsiliepimas(tutorId, formData);
 
     if (response.message) {
-      redirect(`/destytojai/${tutorId}`);
+      redirect(`/destytojai/${tutorId}/review/`);
     } else {
       return {
         ...prevState,

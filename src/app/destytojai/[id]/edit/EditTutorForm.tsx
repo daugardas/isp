@@ -69,11 +69,7 @@ export default function EditTutorForm({
     router.refresh();
 
     if (response.message) {
-      return {
-        ...prevState,
-        message: response.message,
-        error: null,
-      };
+        redirect(`/destytojai/${id}/`);
     } else {
       return {
         ...prevState,
@@ -154,9 +150,8 @@ export default function EditTutorForm({
         <InputWrap>
           <Label htmlFor="gimimo_data">Gimimo data:</Label>
           <input
-            type="text"
+            type="date"
             name="gimimo_data"
-            defaultValue={destytojas.gimimo_data}
             required
             className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md"
           />
@@ -212,8 +207,8 @@ export default function EditTutorForm({
             <option value={DestytojoPareigos.destytojas}>Dėstytojas</option>
             <option value={DestytojoPareigos.dekanas}>Dekanas</option>
             <option value={DestytojoPareigos.prodekanas}>Prodekanas</option>
-            <option value={DestytojoPareigos.studiju_programu_vadovas}>Studijos programų vadovas</option>
-            <option value={DestytojoPareigos.studijos_programu_kuratorius}>Studijos programų kuratorius</option>
+            <option value={DestytojoPareigos.studiju_programos_vadovas}>Studijos programų vadovas</option>
+            <option value={DestytojoPareigos.studiju_programos_kuratorius}>Studijos programų kuratorius</option>
           </select>
         </InputWrap>
         <InputWrap>

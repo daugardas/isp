@@ -27,16 +27,24 @@ export async function addTutor(formData: FormData) {
   var pareigos:DestytojoPareigos[] = [formData.get("pareigos") as DestytojoPareigos];
   const fakultetas_id = parseInt(formData.get("fakultetas_id") as string);
 
+  let exactMatchPhone = new RegExp("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
+  let exactMatchMail = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+
+  var testPhone = exactMatchPhone.test(telefonas);
+  var testMail = exactMatchMail.test(el_pastas);
+
   console.log(fakultetas_id);
 
   // Validating required fields
   if (
     pavarde === "" ||
     laipsnis === "" ||
-    isNaN(fakultetas_id)
+    isNaN(fakultetas_id) ||
+    testPhone != true ||
+    testMail != true
   ) {
     return {
-      error: "Visi laukai privalomi",
+      error: "Ne visi laukai uzpildyti arba yra klaidu",
     };
   }
 

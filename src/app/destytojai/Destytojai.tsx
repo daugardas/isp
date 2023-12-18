@@ -21,7 +21,18 @@ export default function Destytojai({ destytojai }: DestytojaiProps) {
   let loggedIn = true;
 
   return (
+
     <div className="flex flex-col items-center justify-center h-screen w-screen">
+      <div className="flex flex-row gap-2 mb-4">
+          <div>
+            <Link
+              href="/destytojai/monthly"
+              className="bg-zinc-900 text-white px-4 py-2 rounded-md hover:bg-zinc-800 transition duration-100"
+            >
+              Menėsio dėstytojas
+            </Link>
+          </div>
+        </div>
       {loggedIn && (
         <div className="flex flex-row gap-2">
           <div>
@@ -42,7 +53,7 @@ export default function Destytojai({ destytojai }: DestytojaiProps) {
           .map((destytojai) => (
             <Link
               key={destytojai.id}
-              className="w-full py-2 flex text-neutral-300 bg-zinc-900 hover:bg-zinc-800 border border-none rounded-full justify-center hover:text-white transition duration-50"
+              className="w-full py-2 flex text-neutral-300 bg-zinc-900 hover:bg-zinc-800 border border-none rounded-full justify-center hover:text-white transition duration-50 mb-2 px-4"
               href={`/destytojai/${destytojai.id}`}
             >
               {destytojai.vardas}

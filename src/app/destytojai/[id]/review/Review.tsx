@@ -31,7 +31,7 @@ export default function Atsiliepimai({ atsiliepimai }: AtsiliepimaiProps) {
               className="w-full py-3 text-black-700 bg-red-700 hover:bg-blue-300 border border-blue-400 rounded-md text-center hover:text-white transition duration-300"
             >
               <Link
-                href={`/destytojai/${atsiliepimas.destytojasid}/review/${atsiliepimas.id}`}
+                href={`/destytojai/${atsiliepimas.destytojasId}/review/${atsiliepimas.id}`}
               >
                 {atsiliepimas.atsiliepimas}
               </Link>

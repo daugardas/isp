@@ -134,7 +134,7 @@ export default function AddTutorForm() {
         <InputWrap>
           <Label htmlFor="gimimo_data">Gimimo data:</Label>
           <input
-            type="text"
+            type="date"
             name="gimimo_data"
             defaultValue={defaultDestytojas.gimimo_data}
             required
@@ -189,8 +189,8 @@ export default function AddTutorForm() {
             <option value="destytojas">Dėstytojas</option>
             <option value="dekanas">Dekanas</option>
             <option value="prodekanas">Prodekanas</option>
-            <option value="studiju_programu_vadovas">Studijos programų vadovas</option>
-            <option value="studijos_programu_kuratorius">Studijos programų kuratorius</option>
+            <option value="studiju_programos_vadovas">Studijos programų vadovas</option>
+            <option value="studiju_programos_kuratorius">Studijos programų kuratorius</option>
           </select>
         </InputWrap>
         <InputWrap>

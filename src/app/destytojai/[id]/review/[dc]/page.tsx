@@ -60,13 +60,9 @@ export default async function Page({
               {reviewData.data.toLocaleDateString()}
             </p>
           </InputWrap>
-          <InputWrap className="w-full mb-4">
-            <Label className="font-bold text-xl">Atsiliepimo tipas:</Label>
-            <p className="text-lg mt-2">{reviewData.tipas}</p>
-          </InputWrap>
           <div className="mt-6">
             <Link
-              href={`/destytojai/${reviewData.id}/review`}
+              href={`/destytojai/${destytojasData?.id}/review`}
               className="underline text-blue-600"
             >
               Atgal
