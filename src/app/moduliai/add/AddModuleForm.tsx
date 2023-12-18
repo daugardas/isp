@@ -1,5 +1,6 @@
 "use client";
 import Form from "@/components/Form";
+import { redirect } from "next/navigation";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { addModule } from "./actions";
 import prisma from "@/lib/db";
@@ -64,6 +65,11 @@ export default function AddModuleForm() {
     fetchData();
   }, []);
 
+  const handleButtonClick = () => {
+    router.refresh();
+    router.back();
+  };
+
   const handleKryptisPavadinimasChange = (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
@@ -85,7 +91,7 @@ export default function AddModuleForm() {
   };
 
   return (
-    <div className="mt-6 w-8/12 max-w-xs flex flex-col items-center gap-4 dark:bg-gray-800 text-white p-4 rounded-md">
+    <div className="mt-6 w-8/12 max-w-xs flex flex-col items-center gap-4 bg-gray-800 text-white p-4 rounded-md">
       <Form action={formAction}>
         <InputWrap>
           <Label htmlFor="pavadinimas">Pavadinimas:</Label>
@@ -94,7 +100,7 @@ export default function AddModuleForm() {
             name="pavadinimas"
             defaultValue={defaultModulis.pavadinimas}
             required
-            className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md"
+            className="bg-gray-700 text-white px-3 py-2 rounded-md"
           />
         </InputWrap>
         <InputWrap>
@@ -104,7 +110,7 @@ export default function AddModuleForm() {
             name="aprasymas"
             defaultValue={defaultModulis.aprasymas}
             required
-            className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md"
+            className="bg-gray-700 text-white px-3 py-2 rounded-md"
           />
         </InputWrap>
         <InputWrap>
@@ -113,7 +119,7 @@ export default function AddModuleForm() {
             name="kalba"
             defaultValue={defaultModulis.kalba}
             required
-            className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md"
+            className="bg-gray-700 text-white px-3 py-2 rounded-md"
           >
             <option value="lietuviu">Lietuvių</option>
             <option value="anglu">Anglų</option>
@@ -126,7 +132,7 @@ export default function AddModuleForm() {
             name="kreditai"
             defaultValue={defaultModulis.kreditai}
             required
-            className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md"
+            className="bg-gray-700 text-white px-3 py-2 rounded-md"
           />
         </InputWrap>
         <InputWrap>
@@ -135,7 +141,7 @@ export default function AddModuleForm() {
             name="kryptisId"
             onChange={(e) => handleKryptisPavadinimasChange(e)} // Continue using handleKryptisPavadinimasChange
             required
-            className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md"
+            className="bg-gray-700 text-white px-3 py-2 rounded-md"
             value={kryptisPavadinimas} // Use the selected value here
           >
             <option value="" disabled>
@@ -158,7 +164,8 @@ export default function AddModuleForm() {
         <div className="grid grid-cols-2 gap-5">
           <Button
             type="button"
-            onClick={() => router.back()}
+            onClick={() => handleButtonClick()
+            }
             className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-md"
           >
             Atšaukti

@@ -106,12 +106,12 @@ model PatvirtinimoKodas {
 
 model PranesimuNustatymai {
   id                                 Int         @id @default(autoincrement())
-  komentaro_reakcija                 Boolean
-  atsakymas_i_komentara              Boolean
-  sisteminis_naudotojo_pranesimas    Boolean
-  siusti_email_sisteminis_pranesimas Boolean
-  siusti_email_atsakymas_i_komentara Boolean
-  siusti_email_komentaro_reakcija    Boolean
+  komentaro_reakcija                 Boolean     @default(true)
+  atsakymas_i_komentara              Boolean     @default(true)
+  sisteminis_naudotojo_pranesimas    Boolean     @default(true)
+  siusti_email_sisteminis_pranesimas Boolean     @default(true)
+  siusti_email_atsakymas_i_komentara Boolean     @default(true)
+  siusti_email_komentaro_reakcija    Boolean     @default(true)
   naudotojas                         Naudotojas?
 }
 

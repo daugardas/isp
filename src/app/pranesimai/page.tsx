@@ -1,18 +1,46 @@
+import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
+import Pranesimai from "./Pranesimai";
 import { redirect } from "next/navigation";
-import Link from "next/link";
+import { NaudotojoTipas } from "@prisma/client";
+import { deleteOldPranesimas } from "./autoClean";
 
-
+/**
+ * Renders the page component with a list of messages associated with the logged-in user.
+ * @returns JSX element with the Pranesimai component.
+ */
 export default async function Page() {
+  await deleteOldPranesimas();
   const session = await auth();
-  if (!session) redirect("/auth/signin");
+  if (!session || !session.user) {
+    redirect("/");
+  }
+
+  const userID = parseInt(session.user.id, 10);
+
+  const userType = await prisma.naudotojas.findUnique({
+    where:{
+      id: userID,
+    },
+    select: {
+      tipas: true
+    }
+  })
+
+  const isAdmin = userType?.tipas === NaudotojoTipas.administratorius;
+
+  const pranesimai = await prisma.pranesimas.findMany({
+    where: {
+      naudotojasId: userID,
+    },
+    select: {
+      id: true,
+      tipas: true,
+      data: true,
+      tekstas: true,
+      naudotojas: true,
+    },
+  });
   
-  return (
-      <div className="flex flex-col items-start justify-center h-screen text-gray-500">
-        <Link href="/pranesimai/send" className="hover:text-black transition duration-300">Siūsti pranešimą</Link>
-        <Link href="/pranesimai/delete" className="hover:text-black transition duration-300">Trinti pranešimą</Link>
-        <Link href="/pranesimai/settings" className="hover:text-black transition duration-300">Pranešimų nustatymai</Link>
-        {/* <Link href="/pranesimai/module" className="mt-4 underline text-blue-600">Matematika1</Link> */}
-      </div>
-  );
+  return <Pranesimai messages={pranesimai} isAdministrator={isAdmin} />;
 }
