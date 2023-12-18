@@ -147,6 +147,7 @@ model Destytojas {
   fakultetasId       Int?
   moduliai           Modulis[]
   atsiliepimas       Atsiliepimas[]
+  perziuros          Int                 @default(0)
 }
 
 model Atsiliepimas {

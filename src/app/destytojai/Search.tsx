@@ -18,7 +18,7 @@ export default function Search({ search, handleSearch }: SearchProps) {
         type="text"
         value={search}
         onChange={handleSearch}
-        placeholder="Destytoju paieška"
+        placeholder="Dėstytojų paieška"
         className="w-5/6 max-w-2xl h-10 bg-zinc-900 px-4 border border-none rounded-full shadow-zinc-600 shadow-[inset_0px_5px_4px_-5px] outline-none focus:outline-white/30"
       />
     </div>

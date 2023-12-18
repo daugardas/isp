@@ -17,6 +17,7 @@ interface TutorData {
   destytojo_laipsnis: "bakalauras" | "magistras" | "daktaras" | "habilituotas_daktaras";
   destytojo_pareigos: "destytojas" | "dekanas" | "prodekanas" | "studiju_programos_vadovas" | "studiju_programos_kuratorius" ;
   fakultetasId: number | null;
+  perziuros: number;
 }
 
 /**
@@ -78,6 +79,17 @@ export default async function Page({
   if (!tutorData) {
     return <div>Dėstytojas nerastas</div>;
   }
+
+
+
+   await prisma.destytojas.update({
+    where: {
+      id: parseInt(id),
+    }, data: {
+        perziuros: tutorData.perziuros+1,
+      },
+  });
+
   return (
     <div className="mt-6 lg:w-3/4 max-w-3xl w-full mx-auto items-center gap-4">
       <div className="w-full mb-4">
