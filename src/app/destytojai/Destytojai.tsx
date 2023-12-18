@@ -1,12 +1,17 @@
 "use client";
 import { useState } from "react";
-import { MinimizedDestytojas } from "../api/destytojai/search/route";
 import Search from "./Search";
 import { auth } from "@/lib/auth";
 import Link from "next/link";
+import { Destytojas } from "@prisma/client";
+
+type ExpectedDataType = {
+  id: number;
+  vardas: string;
+};
 
 type DestytojaiProps = {
-  destytojai: MinimizedDestytojas[];
+  destytojai: ExpectedDataType[];
 };
 
 export default function Destytojai({ destytojai }: DestytojaiProps) {

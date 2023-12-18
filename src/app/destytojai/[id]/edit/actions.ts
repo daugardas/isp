@@ -1,5 +1,4 @@
 "use server";
-
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { DestytojoTipas, DestytojoLaipsnis, DestytojoPareigos, Fakultetas } from "@prisma/client";
@@ -33,8 +32,6 @@ export async function editTutor(tutorId: string, formData: FormData) {
 
   // Validating required fields
   if (
-    pavarde === "" ||
-    laipsnis === "" ||
     isNaN(fakultetas_id) ||
     testPhone != true ||
     testMail != true

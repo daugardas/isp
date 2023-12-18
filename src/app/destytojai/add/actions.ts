@@ -37,8 +37,6 @@ export async function addTutor(formData: FormData) {
 
   // Validating required fields
   if (
-    pavarde === "" ||
-    laipsnis === "" ||
     isNaN(fakultetas_id) ||
     testPhone != true ||
     testMail != true

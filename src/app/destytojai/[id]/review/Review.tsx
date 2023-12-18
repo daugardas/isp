@@ -2,11 +2,17 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import prisma from "@/lib/db";
-import { MinimizedAtsiliepimas } from "../../../api/atsiliepimai/search/route";
 import Search from "./Search";
+import { Atsiliepimas, IvertinimoTipas } from "@prisma/client";
+
+type ExpectedDataType = {
+  id: number;
+  atsiliepimas: string;
+  destytojasId: number | null;
+};
 
 type AtsiliepimaiProps = {
-  atsiliepimai: MinimizedAtsiliepimas[];
+  atsiliepimai: ExpectedDataType[];
 };
 
 export default function Atsiliepimai({ atsiliepimai }: AtsiliepimaiProps) {

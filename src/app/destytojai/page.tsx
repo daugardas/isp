@@ -12,6 +12,6 @@ export default async function Page() {
       vardas: true,
     },
   });
-
+  
   return <Destytojai destytojai={destytojai} />;
 }

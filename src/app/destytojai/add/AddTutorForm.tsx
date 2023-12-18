@@ -55,7 +55,7 @@ export default function AddTutorForm() {
         setFakultetasOptions(options);
 
         // Assuming defaultDestytojas.fakultetasId is initially set
-        setFakultetasId(defaultDestytojas.fakultetasId);
+        setFakultetasId(defaultDestytojas.fakultetas_id);
       } catch (error) {
         console.error("Error fetching Fakultetas pavadinimas options:", error);
       }
@@ -136,7 +136,6 @@ export default function AddTutorForm() {
           <input
             type="date"
             name="gimimo_data"
-            defaultValue={defaultDestytojas.gimimo_data}
             required
             className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md"
           />

@@ -1,3 +1,4 @@
+import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
 import RemoveTutorForm from "./RemoveTutorForm";
 import { $Enums } from "@prisma/client";
@@ -12,7 +13,8 @@ export default async function Page({
 
   let isAdmin = false;
   const session = await auth();
-  const userId = session.user?.id;
+  if(session){
+    const userId = session.user?.id;
     if (userId) {
       const numericUserId = parseInt(userId, 10); // Ensure userId is a number
       const userData = await prisma.naudotojas.findUnique({
@@ -30,7 +32,9 @@ export default async function Page({
     } else {
       return <div>Vartotojas nerastas</div>;
     }
-
+  } else {
+    return <div>Vartotojas nerastas</div>;
+  }
   // Check if moduleId is available
   if (!id) {
     console.error("tutorId is not provided!");

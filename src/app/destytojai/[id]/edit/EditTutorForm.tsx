@@ -25,11 +25,6 @@ interface EditTutorFormProps {
   destytojas: Destytojas;
 }
 
-interface Fakultetas {
-  id: number;
-  pavadinimas: string;
-}
-
 const destytojas = {
     vardas: "",
     pavarde: "",
@@ -57,7 +52,7 @@ export default function EditTutorForm({
     destytojas.destytojo_laipsnis
   );
   const [selectedPareigos, setSelectedPareigos] = useState<DestytojoPareigos>(
-    destytojas.destytojo_pareigos
+    destytojas.destytojo_pareigos[0]
   );
 
   const handleFormAction = async (prevState: any, formData: FormData) => {
@@ -218,7 +213,7 @@ export default function EditTutorForm({
             onChange={(e) => handleFakultetasPavadinimasChange(e)} // Continue using handleFakultetasPavadinimasChange
             required
             className="dark:bg-gray-700 dark:text-white px-3 py-2 rounded-md"
-            value={fakultetasId} // Use the selected value here
+            value={Number(fakultetasId)} // Use the selected value here
           >
             <option value="" disabled>
               Pasirinkite fakultetą
