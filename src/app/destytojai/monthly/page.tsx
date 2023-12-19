@@ -1,19 +1,37 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import Link from 'next/link';
+import prisma from "@/lib/db";
+import ShowMonthTutor from "./ShowMonthTutor";
 
 export default async function Page() {
   const session = await auth();
-  if (!session) redirect("/auth/signin");
-  return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      Mėnesio dėstytojas
+  if (!session || !session.user) {
+    redirect("/");
+  }
 
-      <Link href="/destytojai" className="mt-4 underline text-blue-600">
-        Atgal
-      </Link>
-    </div>
+ let destytojai = await prisma.destytojas.findMany({
+    select: {
+      id: true,
+      atsiliepimas: true,
+      perziuros: true,
+    },
+  });
 
-    
-  );
+  destytojai.map((destytojas) => {
+
+      destytojas.atsiliepimas = destytojas.atsiliepimas.filter(
+        (atsiliepimas)=> 
+        atsiliepimas.data.getFullYear() === new Date().getFullYear() 
+        && atsiliepimas.data.getMonth() === new Date().getMonth()
+        )
+  });
+
+  
+
+  destytojai.sort((a,b) => a.atsiliepimas.length === b.atsiliepimas.length ? (b.perziuros - a.perziuros):(b.atsiliepimas.length - a.atsiliepimas.length))
+
+
+  return <ShowMonthTutor tutorId={destytojai[0].id} />;
 }
+
+
