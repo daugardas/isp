@@ -65,6 +65,7 @@ model Naudotojas {
   pranesimuNustatymai    PranesimuNustatymai  @relation(fields: [pranesimuNustatymaiId], references: [id])
   pranesimuNustatymaiId  Int                  @unique
   Fakultetas             Fakultetas?          @relation(fields: [fakultetasId], references: [id])
+  deleted                Boolean              @default(false)
   fakultetasId           Int?
   Komentaras             Komentaras[]
   Reakcija               Reakcija[]
@@ -151,16 +152,16 @@ model Destytojas {
 }
 
 model Atsiliepimas {
-  id              Int              @id @default(autoincrement())
-  tipas           IvertinimoTipas
-  atsiliepimas    String
-  data            DateTime
-  autorius        Naudotojas       @relation(fields: [autoriusId], references: [id])
-  autoriusId      Int
-  destytojas      Destytojas?      @relation(fields: [destytojasId], references: [id])
-  destytojasId    Int?
-  modulis         Modulis?         @relation(fields: [modulisId], references: [id])
-  modulisId       Int?
+  id           Int             @id @default(autoincrement())
+  tipas        IvertinimoTipas
+  atsiliepimas String
+  data         DateTime
+  autorius     Naudotojas      @relation(fields: [autoriusId], references: [id])
+  autoriusId   Int
+  destytojas   Destytojas?     @relation(fields: [destytojasId], references: [id])
+  destytojasId Int?
+  modulis      Modulis?        @relation(fields: [modulisId], references: [id])
+  modulisId    Int?
 }
 
 model Komentaras {

@@ -6,12 +6,15 @@ import Naudotojai from "./Naudotojai";
  * @returns JSX element with the Naudotojai component.
  */
 export default async function Page() {
-  const naudotojai = await prisma.naudotojas.findMany({
-    select: {
-      id: true,
-      vardas: true,
-    },
-  });
+    const naudotojai = await prisma.naudotojas.findMany({
+        select: {
+            id: true,
+            vardas: true,
+        },
+        where: {
+            deleted: false,
+        },
+    });
 
-  return <Naudotojai naudotojai={naudotojai} />;
+    return <Naudotojai naudotojai={naudotojai} />;
 }

@@ -77,6 +77,7 @@ export async function POST(req: NextRequest) {
         const user = await prisma.naudotojas.findUnique({
             where: {
                 id: Number(userIdToTag),
+                deleted: false,
             },
         });
 
