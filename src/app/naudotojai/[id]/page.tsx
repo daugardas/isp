@@ -9,6 +9,7 @@ import DangerButton from "@/components/DangerButton";
 import NeutralButton from "@/components/NeutralButton";
 import Tag from "./Tag";
 import Link from "next/link";
+import DeleteNaudotojas from "./DeleteNaudotojas";
 
 /**
  * Renders a page for a specific user.
@@ -25,6 +26,7 @@ export default async function Page({
     const naudotojas = await prisma.naudotojas.findUnique({
         where: {
             id: parseInt(id),
+            deleted: false,
         },
     });
 
@@ -208,7 +210,9 @@ export default async function Page({
                 </InputWrap>
                 {loggedIn && (isAdmin || isSelf) && (
                     <div className="flex flex-row gap-2">
-                        {isAdmin && <DangerButton>Ištrinti</DangerButton>}
+                        {(isAdmin || isSelf) && (
+                            <DeleteNaudotojas naudotojasId={naudotojas.id} />
+                        )}
 
                         {isSelf && (
                             <div>

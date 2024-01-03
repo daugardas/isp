@@ -65,6 +65,7 @@ model Naudotojas {
   pranesimuNustatymai    PranesimuNustatymai  @relation(fields: [pranesimuNustatymaiId], references: [id])
   pranesimuNustatymaiId  Int                  @unique
   Fakultetas             Fakultetas?          @relation(fields: [fakultetasId], references: [id])
+  deleted                Boolean              @default(false)
   fakultetasId           Int?
   Komentaras             Komentaras[]
   Reakcija               Reakcija[]
@@ -106,12 +107,12 @@ model PatvirtinimoKodas {
 
 model PranesimuNustatymai {
   id                                 Int         @id @default(autoincrement())
-  komentaro_reakcija                 Boolean
-  atsakymas_i_komentara              Boolean
-  sisteminis_naudotojo_pranesimas    Boolean
-  siusti_email_sisteminis_pranesimas Boolean
-  siusti_email_atsakymas_i_komentara Boolean
-  siusti_email_komentaro_reakcija    Boolean
+  komentaro_reakcija                 Boolean     @default(true)
+  atsakymas_i_komentara              Boolean     @default(true)
+  sisteminis_naudotojo_pranesimas    Boolean     @default(true)
+  siusti_email_sisteminis_pranesimas Boolean     @default(true)
+  siusti_email_atsakymas_i_komentara Boolean     @default(true)
+  siusti_email_komentaro_reakcija    Boolean     @default(true)
   naudotojas                         Naudotojas?
 }
 
@@ -143,9 +144,11 @@ model Destytojas {
   destytojo_tipas    DestytojoTipas
   destytojo_laipsnis DestytojoLaipsnis
   destytojo_pareigos DestytojoPareigos[]
-  fakultetas         Fakultetas          @relation(fields: [fakultetasId], references: [id])
-  fakultetasId       Int
+  fakultetas         Fakultetas?         @relation(fields: [fakultetasId], references: [id])
+  fakultetasId       Int?
   moduliai           Modulis[]
+  atsiliepimas       Atsiliepimas[]
+  perziuros          Int                 @default(0)
 }
 
 model Atsiliepimas {
@@ -155,8 +158,10 @@ model Atsiliepimas {
   data         DateTime
   autorius     Naudotojas      @relation(fields: [autoriusId], references: [id])
   autoriusId   Int
-  modulis      Modulis         @relation(fields: [modulisId], references: [id])
-  modulisId    Int
+  destytojas   Destytojas?     @relation(fields: [destytojasId], references: [id])
+  destytojasId Int?
+  modulis      Modulis?        @relation(fields: [modulisId], references: [id])
+  modulisId    Int?
 }
 
 model Komentaras {
