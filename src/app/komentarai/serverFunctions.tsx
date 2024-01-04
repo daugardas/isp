@@ -72,3 +72,36 @@ export async function deleteComment(commentId) {
         return { error: "Error deleting comment: " + error.message };
     }
 }
+
+export async function addReaction(commentId, userId, reactionType) {
+    try {
+        // Check if the user already reacted
+        const existingReaction = await prisma.reakcija.findFirst({
+            where: {
+                komentarasId: commentId,
+                naudotojasId: userId
+            }
+        });
+
+        if (existingReaction) {
+            // Update reaction if it already exists
+            await prisma.reakcija.update({
+                where: { id: existingReaction.id },
+                data: { reakcija: reactionType },
+            });
+        } else {
+            // Create new reaction
+            await prisma.reakcija.create({
+                data: {
+                    reakcija: reactionType,
+                    komentarasId: commentId,
+                    naudotojasId: userId
+                },
+            });
+        }
+
+        return { message: "Reaction updated successfully" };
+    } catch (error) {
+        return { error: "Error updating reaction: " + error.message };
+    }
+}

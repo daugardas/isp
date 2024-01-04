@@ -1,7 +1,7 @@
 ﻿// CommentSection.js
 import React, { useState } from 'react';
 import Comment from './Comment';
-import { addComment, editComment, deleteComment } from './serverFunctions';
+import { addComment, editComment, deleteComment, addReaction } from './serverFunctions';
 
 const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, onSortChange, onFilterChange }) => {
     const [showCommentBox, setShowCommentBox] = useState(false);
@@ -70,6 +70,16 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
         }
     };
 
+    const handleAddReaction = async (commentId, reactionType) => {
+        const result = await addReaction(commentId, naudotojasId, reactionType);
+        if (result.error) {
+            console.error(result.error);
+            // Handle error (e.g., show error message)
+        } else {
+            refreshComments();
+        }
+    };
+
     const isFilterActive = filter => filter !== 'all';
     const hasComments = komentarai.length > 0;
 
@@ -113,6 +123,7 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
                         onReply={handleReplyClick}
                         onEdit={handleEditComment}
                         onDelete={handleDeleteComment}
+                        onReact={handleAddReaction}
                         naudotojasId={naudotojasId}
                     />
                 ))
