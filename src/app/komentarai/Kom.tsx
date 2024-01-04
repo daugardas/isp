@@ -1,25 +1,26 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import CommentSection from "./CommentSection";
-import { fetchComments } from './serverFunctions'; // Adjust the path as necessary
+import { fetchComments } from './serverFunctions';
 
 const Kom = ({ modulisId, naudotojasId }) => {
     const [komentarai, setKomentarai] = useState([]);
 
-    useEffect(() => {
-        const loadComments = async () => {
-            const fetchedComments = await fetchComments(modulisId);
-            setKomentarai(fetchedComments);
-        };
+    const loadComments = async () => {
+        const fetchedComments = await fetchComments(modulisId);
+        setKomentarai(fetchedComments);
+    };
 
+    useEffect(() => {
         loadComments();
-    }, [modulisId]); // Add modulisId as a dependency
+    }, [modulisId]);
 
     return (
         <CommentSection
             komentarai={komentarai}
             modulisId={modulisId}
             naudotojasId={naudotojasId}
+            refreshComments={loadComments} // Pass loadComments as a prop to refresh
         />
     );
 }
