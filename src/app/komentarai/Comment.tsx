@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 const Comment = ({ commentData, onReply, onEdit, onDelete, onReact, naudotojasId, isReply = false }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedComment, setEditedComment] = useState(commentData.komentaras);
+    const userName = commentData.naudotojas ? commentData.naudotojas.vardas : 'Unknown User';
 
     const isUserComment = commentData.naudotojasId === naudotojasId;
 
@@ -31,7 +32,7 @@ const Comment = ({ commentData, onReply, onEdit, onDelete, onReact, naudotojasId
                 {isEditing ? (
                     <textarea value={editedComment} onChange={(e) => setEditedComment(e.target.value)} />
                 ) : (
-                    <p>{commentData.naudotojasId}: {commentData.komentaras}</p>
+                    <p>{userName}: {commentData.komentaras}</p> // Use userName
                 )}
             </div>
             <span className="date">Posted on: {commentData.data.toLocaleDateString()}</span>
@@ -60,7 +61,16 @@ const Comment = ({ commentData, onReply, onEdit, onDelete, onReact, naudotojasId
             {commentData.atsakymai && commentData.atsakymai.length > 0 && (
                 <div className="replies">
                     {commentData.atsakymai.map(reply => (
-                        <Comment key={reply.id} commentData={reply} onReply={onReply} onEdit={onEdit} onDelete={onDelete} onReact={onReact} naudotojasId={naudotojasId} isReply={true} />
+                        <Comment
+                            key={reply.id}
+                            commentData={reply}
+                            onReply={onReply}
+                            onEdit={onEdit}
+                            onDelete={onDelete}
+                            onReact={onReact}
+                            naudotojasId={naudotojasId}
+                            isReply={true}
+                        />
                     ))}
                 </div>
             )}

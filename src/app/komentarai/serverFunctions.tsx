@@ -3,6 +3,8 @@
 import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
 
+// serverFunctions.js
+
 export async function fetchComments(modulisId) {
     try {
         const comments = await prisma.komentaras.findMany({
@@ -10,7 +12,13 @@ export async function fetchComments(modulisId) {
                 modulisId: modulisId
             },
             include: {
-                atsakymai: true
+                naudotojas: true, // Include user data
+                atsakymai: {
+                    include: {
+                        naudotojas: true // Include user data for replies as well
+                    }
+                },
+                Reakcija: true,
             },
         });
         return comments;
@@ -19,6 +27,7 @@ export async function fetchComments(modulisId) {
         return [];
     }
 }
+
 
 
 export async function addComment(commentData) {
