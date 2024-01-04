@@ -88,3 +88,8 @@ button {
     color: #000; /* or any color you prefer for the text */
     background-color: #fff; /* if you want to ensure the background is white */
 }
+
+.comment-section select {
+    color: #000; /* Black text color for dropdowns */
+    background-color: #fff; /* White background for better visibility */
+}

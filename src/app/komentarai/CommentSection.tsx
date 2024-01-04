@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Comment from './Comment';
 import { addComment } from './serverFunctions';
 
-const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments }) => {
+const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, onSortChange, onFilterChange }) => {
     const [showCommentBox, setShowCommentBox] = useState(false);
     const [commentText, setCommentText] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -51,6 +51,18 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments }
 
     return (
         <div className="comment-section">
+            <div>
+                <label>Sort by: </label>
+                <select onChange={(e) => onSortChange(e.target.value)}>
+                    <option value="date">Date</option>
+                    <option value="user">User</option>
+                </select>
+                <label>Filter: </label>
+                <select onChange={(e) => onFilterChange(e.target.value)}>
+                    <option value="all">All Comments</option>
+                    <option value="top-level">Top-Level Comments</option>
+                </select>
+            </div>
             <button onClick={handleAddCommentClick}>Add Comment</button>
             {showCommentBox && (
                 <div>
