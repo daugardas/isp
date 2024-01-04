@@ -78,3 +78,9 @@ button {
     cursor: pointer;
     margin-right: 5px;
 }
+
+.comment-section input,
+.comment-section textarea {
+    color: #000; /* or any color you prefer for the text */
+    background-color: #fff; /* if you want to ensure the background is white */
+}

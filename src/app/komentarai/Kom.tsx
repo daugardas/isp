@@ -1,20 +1,27 @@
-// Kom.tsx
-import React from 'react';
-import prisma from "@/lib/db";
+"use client";
+import React, { useEffect, useState } from 'react';
 import CommentSection from "./CommentSection";
-import { CommentView } from './interfaces';
+import { fetchComments } from './serverFunctions'; // Adjust the path as necessary
 
-const Kom: React.FC = async () => {
-    const komentarai: CommentView[] = await prisma.komentaras.findMany({
-        select: {
-            id: true,
-            komentaras: true,
-            data: true,
-            naudotojas: true
-        },
-    });
+const Kom = ({ modulisId, naudotojasId }) => {
+    const [komentarai, setKomentarai] = useState([]);
 
-    return <CommentSection komentarai={komentarai} />;
+    useEffect(() => {
+        const loadComments = async () => {
+            const fetchedComments = await fetchComments();
+            setKomentarai(fetchedComments);
+        };
+
+        loadComments();
+    }, []);
+
+    return (
+        <CommentSection
+            komentarai={komentarai}
+            modulisId={modulisId}
+            naudotojasId={naudotojasId}
+        />
+    );
 }
 
 export default Kom;

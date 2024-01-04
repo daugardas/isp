@@ -80,7 +80,9 @@ export default async function Page({
     } else {
       return <div>Vartotojas nerastas</div>;
     }
-  }
+    }
+
+    const naudotojasId = session?.user?.id;
 
   if (!moduleData) {
     return <div>Modulis nerastas</div>;
@@ -153,7 +155,7 @@ export default async function Page({
           Atsiliepimai apie modulį
         </Link>
           </div>
-          <Kom /> {/* This will display the comments */}
+          <Kom modulisId={parseInt(params.id, 10)} naudotojasId={parseInt(naudotojasId, 10)} />
     </div>
   );
 }
