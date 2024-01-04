@@ -31,9 +31,13 @@ body {
     margin-top: 10px;
 }
 
-.reply {
+.replies {
     margin-left: 20px;
+    border-left: 1px solid #ddd;
+    padding-left: 20px;
 }
+
+
 
 .date {
     font-size: 0.8em;

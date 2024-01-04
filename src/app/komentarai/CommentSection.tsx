@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import Comment from './Comment';
-import { addComment } from './serverFunctions'; // Adjust the path as necessary
+import { addComment } from './serverFunctions';
 
 const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments }) => {
     const [showCommentBox, setShowCommentBox] = useState(false);
     const [commentText, setCommentText] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [replyToCommentId, setReplyToCommentId] = useState(null);
 
     const handleAddCommentClick = () => {
+        setShowCommentBox(true);
+        setReplyToCommentId(null);
+    };
+
+    const handleReplyClick = (commentId) => {
+        setReplyToCommentId(commentId);
         setShowCommentBox(true);
     };
 
     const handleAddButtonClick = async () => {
-        // Check for disallowed symbols
         if (/[<>/"\\]/.test(commentText)) {
             setErrorMessage('Comments cannot contain the symbols <, >, /, \\, or ".');
             return;
@@ -21,7 +27,8 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments }
         const result = await addComment({
             komentaras: commentText,
             naudotojasId,
-            modulisId
+            modulisId,
+            atsakymasIKomentaraId: replyToCommentId
         });
 
         if (result.error) {
@@ -30,7 +37,7 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments }
         } else {
             console.log(result.message);
             setCommentText('');
-            refreshComments(); // Refresh comments after successful addition
+            refreshComments();
             setErrorMessage('');
         }
         setShowCommentBox(false);
@@ -58,7 +65,7 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments }
                 </div>
             )}
             {komentarai.map((comment) => (
-                <Comment key={comment.id} commentData={comment} />
+                <Comment key={comment.id} commentData={comment} onReply={handleReplyClick} />
             ))}
         </div>
     );

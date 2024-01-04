@@ -20,7 +20,7 @@ const Kom = ({ modulisId, naudotojasId }) => {
             komentarai={komentarai}
             modulisId={modulisId}
             naudotojasId={naudotojasId}
-            refreshComments={loadComments} // Pass loadComments as a prop to refresh
+            refreshComments={loadComments}
         />
     );
 }

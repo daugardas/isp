@@ -7,13 +7,11 @@ export async function fetchComments(modulisId) {
     try {
         const comments = await prisma.komentaras.findMany({
             where: {
-                modulisId: modulisId
+                modulisId: modulisId,
+                atsakymasIKomentaraId: null // Fetch only top-level comments
             },
-            select: {
-                id: true,
-                komentaras: true,
-                data: true,
-                naudotojas: true
+            include: {
+                atsakymai: true // Include replies
             },
         });
         return comments;
