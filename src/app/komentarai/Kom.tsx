@@ -8,12 +8,12 @@ const Kom = ({ modulisId, naudotojasId }) => {
 
     useEffect(() => {
         const loadComments = async () => {
-            const fetchedComments = await fetchComments();
+            const fetchedComments = await fetchComments(modulisId);
             setKomentarai(fetchedComments);
         };
 
         loadComments();
-    }, []);
+    }, [modulisId]); // Add modulisId as a dependency
 
     return (
         <CommentSection

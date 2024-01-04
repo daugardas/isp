@@ -3,9 +3,12 @@
 import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
 
-export async function fetchComments() {
+export async function fetchComments(modulisId) {
     try {
         const comments = await prisma.komentaras.findMany({
+            where: {
+                modulisId: modulisId
+            },
             select: {
                 id: true,
                 komentaras: true,
