@@ -10,7 +10,7 @@ const Comment = ({ commentData, onReply, onEdit, onDelete, onReact, naudotojasId
 
     const handleEdit = () => {
         setIsEditing(true);
-        setEditErrorMessage(''); // Clear error message when starting to edit
+        setEditErrorMessage('');
     };
 
     const handleSave = () => {
@@ -32,6 +32,12 @@ const Comment = ({ commentData, onReply, onEdit, onDelete, onReact, naudotojasId
         onReact(commentData.id, reactionType);
     };
 
+    const handleDelete = () => {
+        if (window.confirm("Ar tikrai norite ištrinti šį komentarą?")) {
+            onDelete(commentData.id);
+        }
+    };
+
     return (
         <div className="comment">
             <div className="comment-content">
@@ -48,7 +54,7 @@ const Comment = ({ commentData, onReply, onEdit, onDelete, onReact, naudotojasId
             {isUserComment && !isEditing && (
                 <>
                     <Button text="Redaguoti" onClick={handleEdit} />
-                    <Button text="Šalinti" onClick={() => onDelete(commentData.id)} />
+                    <Button text="Šalinti" onClick={handleDelete} />
                 </>
             )}
             {isEditing && (
