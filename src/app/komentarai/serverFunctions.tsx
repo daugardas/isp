@@ -7,11 +7,10 @@ export async function fetchComments(modulisId) {
     try {
         const comments = await prisma.komentaras.findMany({
             where: {
-                modulisId: modulisId,
-                atsakymasIKomentaraId: null // Fetch only top-level comments
+                modulisId: modulisId
             },
             include: {
-                atsakymai: true // Include replies
+                atsakymai: true
             },
         });
         return comments;
@@ -20,6 +19,7 @@ export async function fetchComments(modulisId) {
         return [];
     }
 }
+
 
 export async function addComment(commentData) {
     const session = await auth();

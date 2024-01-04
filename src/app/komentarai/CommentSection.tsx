@@ -20,7 +20,7 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
 
     const handleAddButtonClick = async () => {
         if (/[<>/"\\]/.test(commentText)) {
-            setErrorMessage('Komentaro turinyje negali buti simboliu <, >, /, \\ ar ".');
+            setErrorMessage('Komentaro turinyje negali būti simbolių <, >, /, \\ ar ".');
             return;
         }
 
@@ -49,6 +49,12 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
         setErrorMessage('');
     };
 
+    const isFilterActive = filter => filter !== 'all';
+    const hasComments = komentarai.length > 0;
+
+    // Filter out replies from top-level comments
+    const topLevelComments = komentarai.filter(comment => !comment.atsakymasIKomentaraId);
+
     return (
         <div className="comment-section">
             <div>
@@ -57,10 +63,11 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
                     <option value="date">Datą</option>
                     <option value="user">Naudotoją</option>
                 </select>
-                <label>    Filtruoti: </label>
+                <label> Filtruoti: </label>
                 <select onChange={(e) => onFilterChange(e.target.value)}>
                     <option value="all">Visi komentarai</option>
-                    <option value="top-level">Komentarai be atsakymo</option>
+                    <option value="my-comments">Mano komentarai</option>
+                    <option value="todays-comments">Šiandienos komentarai</option>
                 </select>
             </div>
             <button onClick={handleAddCommentClick}>Pridėti komentarą</button>
@@ -76,9 +83,16 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </div>
             )}
-            {komentarai.map((comment) => (
-                <Comment key={comment.id} commentData={comment} onReply={handleReplyClick} />
-            ))}
+            {topLevelComments.length ? (
+                topLevelComments.map((comment) => (
+                    <Comment key={comment.id} commentData={comment} onReply={handleReplyClick} />
+                ))
+            ) : isFilterActive(onFilterChange) && (
+                <p className="no-comments-message">Nėra komentarų šiam filtrui.</p>
+            )}
+            {!hasComments && !isFilterActive(onFilterChange) && (
+                <p className="no-comments-message">Kol kas komentarų nėra.</p>
+            )}
         </div>
     );
 };

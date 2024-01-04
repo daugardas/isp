@@ -1,3 +1,4 @@
+// Kom.js
 "use client";
 import React, { useEffect, useState } from 'react';
 import CommentSection from "./CommentSection";
@@ -6,13 +7,13 @@ import { fetchComments } from './serverFunctions';
 const Kom = ({ modulisId, naudotojasId }) => {
     const [komentarai, setKomentarai] = useState([]);
     const [filteredComments, setFilteredComments] = useState([]);
-    const [sortOption, setSortOption] = useState('date'); // Default sorting by date
-    const [filterOption, setFilterOption] = useState('all'); // Default filter to show all
+    const [sortOption, setSortOption] = useState('date');
+    const [filterOption, setFilterOption] = useState('all'); // 'all', 'my-comments', 'todays-comments'
 
     const loadComments = async () => {
         const fetchedComments = await fetchComments(modulisId);
         setKomentarai(fetchedComments);
-        setFilteredComments(fetchedComments);
+        applyFilterAndSort(fetchedComments);
     };
 
     useEffect(() => {
@@ -20,26 +21,34 @@ const Kom = ({ modulisId, naudotojasId }) => {
     }, [modulisId]);
 
     useEffect(() => {
-        // Apply filter
-        let tempComments = komentarai.filter(comment =>
-            filterOption === 'top-level' ? !comment.atsakymasIKomentaraId : true
-        );
+        applyFilterAndSort(komentarai);
+    }, [sortOption, filterOption, komentarai]);
+
+    const applyFilterAndSort = (comments) => {
+        let tempComments = [...comments];
+        const today = new Date();
+
+        if (filterOption === 'my-comments') {
+            tempComments = tempComments.filter(comment => comment.naudotojasId === naudotojasId);
+        } else if (filterOption === 'todays-comments') {
+            tempComments = tempComments.filter(comment => {
+                const commentDate = new Date(comment.data);
+                return commentDate.toDateString() === today.toDateString();
+            });
+        }
 
         // Apply sorting
-        tempComments = tempComments.sort((a, b) => {
+        tempComments.sort((a, b) => {
             if (sortOption === 'date') {
                 return new Date(b.data) - new Date(a.data);
             } else if (sortOption === 'user') {
-                // Convert naudotojasId to string for sorting
-                const userIdA = String(a.naudotojasId);
-                const userIdB = String(b.naudotojasId);
-                return userIdA.localeCompare(userIdB);
+                return String(a.naudotojasId).localeCompare(String(b.naudotojasId));
             }
             return 0;
         });
 
         setFilteredComments(tempComments);
-    }, [sortOption, filterOption, komentarai]);
+    };
 
     return (
         <CommentSection
@@ -51,6 +60,6 @@ const Kom = ({ modulisId, naudotojasId }) => {
             refreshComments={loadComments}
         />
     );
-}
+};
 
 export default Kom;
