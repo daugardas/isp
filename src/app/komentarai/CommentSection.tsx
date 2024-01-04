@@ -1,7 +1,7 @@
 ﻿// CommentSection.js
 import React, { useState } from 'react';
 import Comment from './Comment';
-import { addComment } from './serverFunctions';
+import { addComment, editComment, deleteComment } from './serverFunctions';
 
 const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, onSortChange, onFilterChange }) => {
     const [showCommentBox, setShowCommentBox] = useState(false);
@@ -50,6 +50,26 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
         setErrorMessage('');
     };
 
+    const handleEditComment = async (commentId, updatedComment) => {
+        const result = await editComment(commentId, updatedComment);
+        if (result.error) {
+            console.error(result.error);
+            // Handle error (e.g., show error message)
+        } else {
+            refreshComments();
+        }
+    };
+
+    const handleDeleteComment = async (commentId) => {
+        const result = await deleteComment(commentId);
+        if (result.error) {
+            console.error(result.error);
+            // Handle error
+        } else {
+            refreshComments();
+        }
+    };
+
     const isFilterActive = filter => filter !== 'all';
     const hasComments = komentarai.length > 0;
 
@@ -58,6 +78,7 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
 
     return (
         <div className="comment-section">
+            {/* ... existing elements */}
             <div>
                 <label>Rūšiuoti pagal: </label>
                 <select onChange={(e) => onSortChange(e.target.value)}>
@@ -90,6 +111,8 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
                         key={comment.id}
                         commentData={comment}
                         onReply={handleReplyClick}
+                        onEdit={handleEditComment}
+                        onDelete={handleDeleteComment}
                         naudotojasId={naudotojasId}
                     />
                 ))
