@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 const Comment = ({ commentData, onReply, isReply = false }) => {
     return (
@@ -7,10 +7,10 @@ const Comment = ({ commentData, onReply, isReply = false }) => {
                 <p>{commentData.naudotojasId}: {commentData.komentaras}</p>
             </div>
             <span className="date">Posted on: {commentData.data.toLocaleDateString()}</span>
-            <Button text="React" disabled />
-            <Button text="Edit" disabled />
-            <Button text="Delete" disabled />
-            {!isReply && <Button text="Reply" onClick={() => onReply(commentData.id)} />}
+            <Button text="Reaguoti" disabled />
+            <Button text="Redaguoti" disabled />
+            <Button text="Šalinti" disabled />
+            {!isReply && <Button text="Atsakyti" onClick={() => onReply(commentData.id)} />}
 
             {commentData.atsakymai && commentData.atsakymai.length > 0 && (
                 <div className="replies">

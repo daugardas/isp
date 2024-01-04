@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import Comment from './Comment';
 import { addComment } from './serverFunctions';
 
@@ -20,7 +20,7 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
 
     const handleAddButtonClick = async () => {
         if (/[<>/"\\]/.test(commentText)) {
-            setErrorMessage('Comments cannot contain the symbols <, >, /, \\, or ".');
+            setErrorMessage('Komentaro turinyje negali buti simboliu <, >, /, \\ ar ".');
             return;
         }
 
@@ -52,27 +52,27 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
     return (
         <div className="comment-section">
             <div>
-                <label>Sort by: </label>
+                <label>Rūšiuoti pagal: </label>
                 <select onChange={(e) => onSortChange(e.target.value)}>
-                    <option value="date">Date</option>
-                    <option value="user">User</option>
+                    <option value="date">Datą</option>
+                    <option value="user">Naudotoją</option>
                 </select>
-                <label>Filter: </label>
+                <label>    Filtruoti: </label>
                 <select onChange={(e) => onFilterChange(e.target.value)}>
-                    <option value="all">All Comments</option>
-                    <option value="top-level">Top-Level Comments</option>
+                    <option value="all">Visi komentarai</option>
+                    <option value="top-level">Komentarai be atsakymo</option>
                 </select>
             </div>
-            <button onClick={handleAddCommentClick}>Add Comment</button>
+            <button onClick={handleAddCommentClick}>Pridėti komentarą</button>
             {showCommentBox && (
                 <div>
                     <textarea
-                        placeholder="Write a comment..."
+                        placeholder="Rašykite komentarą..."
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
                     ></textarea>
-                    <button onClick={handleAddButtonClick}>Add</button>
-                    <button onClick={handleCancelClick}>Cancel</button>
+                    <button onClick={handleAddButtonClick}>Pridėti</button>
+                    <button onClick={handleCancelClick}>Atšaukti</button>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </div>
             )}
