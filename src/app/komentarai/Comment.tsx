@@ -1,18 +1,23 @@
-﻿// Comment.js
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 
 const Comment = ({ commentData, onReply, onEdit, onDelete, onReact, naudotojasId, isReply = false }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedComment, setEditedComment] = useState(commentData.komentaras);
-    const userName = commentData.naudotojas ? commentData.naudotojas.vardas : 'Unknown User';
+    const [editErrorMessage, setEditErrorMessage] = useState('');
+    const userName = commentData.naudotojas ? commentData.naudotojas.vardas : 'Nežinomasis';
 
     const isUserComment = commentData.naudotojasId === naudotojasId;
 
     const handleEdit = () => {
         setIsEditing(true);
+        setEditErrorMessage(''); // Clear error message when starting to edit
     };
 
     const handleSave = () => {
+        if (/[<>/"\\]/.test(editedComment)) {
+            setEditErrorMessage('Komentaro turinyje negali būti simbolių <, >, /, \\ ar "');
+            return;
+        }
         onEdit(commentData.id, editedComment);
         setIsEditing(false);
     };
@@ -20,6 +25,7 @@ const Comment = ({ commentData, onReply, onEdit, onDelete, onReact, naudotojasId
     const handleCancel = () => {
         setEditedComment(commentData.komentaras);
         setIsEditing(false);
+        setEditErrorMessage('');
     };
 
     const handleReaction = (reactionType) => {
@@ -30,12 +36,15 @@ const Comment = ({ commentData, onReply, onEdit, onDelete, onReact, naudotojasId
         <div className="comment">
             <div className="comment-content">
                 {isEditing ? (
-                    <textarea value={editedComment} onChange={(e) => setEditedComment(e.target.value)} />
+                    <>
+                        <textarea value={editedComment} onChange={(e) => setEditedComment(e.target.value)} />
+                        {editErrorMessage && <p className="error-message">{editErrorMessage}</p>}
+                    </>
                 ) : (
-                    <p>{userName}: {commentData.komentaras}</p> // Use userName
+                    <p>{userName}: {commentData.komentaras}</p>
                 )}
             </div>
-            <span className="date">Posted on: {commentData.data.toLocaleDateString()}</span>
+            <span className="date">Paskelbtas: {commentData.data.toLocaleDateString()}</span>
             {isUserComment && !isEditing && (
                 <>
                     <Button text="Redaguoti" onClick={handleEdit} />
