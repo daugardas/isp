@@ -1,4 +1,5 @@
-﻿import React, { useState } from 'react';
+﻿// CommentSection.js
+import React, { useState } from 'react';
 import Comment from './Comment';
 import { addComment } from './serverFunctions';
 
@@ -85,7 +86,12 @@ const CommentSection = ({ komentarai, modulisId, naudotojasId, refreshComments, 
             )}
             {topLevelComments.length ? (
                 topLevelComments.map((comment) => (
-                    <Comment key={comment.id} commentData={comment} onReply={handleReplyClick} />
+                    <Comment
+                        key={comment.id}
+                        commentData={comment}
+                        onReply={handleReplyClick}
+                        naudotojasId={naudotojasId}
+                    />
                 ))
             ) : isFilterActive(onFilterChange) && (
                 <p className="no-comments-message">Nėra komentarų šiam filtrui.</p>

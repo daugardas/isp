@@ -48,3 +48,27 @@ export async function addComment(commentData) {
         return { error: "Error adding comment: " + error.message };
     }
 }
+
+export async function editComment(commentId, updatedComment) {
+    try {
+        await prisma.komentaras.update({
+            where: { id: commentId },
+            data: { komentaras: updatedComment },
+        });
+        return { message: "Comment updated successfully" };
+    } catch (error) {
+        return { error: "Error updating comment: " + error.message };
+    }
+}
+
+// Function to delete a comment
+export async function deleteComment(commentId) {
+    try {
+        await prisma.komentaras.delete({
+            where: { id: commentId },
+        });
+        return { message: "Comment deleted successfully" };
+    } catch (error) {
+        return { error: "Error deleting comment: " + error.message };
+    }
+}
