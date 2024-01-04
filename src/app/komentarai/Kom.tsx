@@ -1,7 +1,7 @@
 // Kom.tsx
 import React from 'react';
 import prisma from "@/lib/db";
-import Komentarai from "./Komentarai";
+import CommentSection from "./CommentSection";
 import { CommentView } from './interfaces';
 
 const Kom: React.FC = async () => {
@@ -10,10 +10,11 @@ const Kom: React.FC = async () => {
             id: true,
             komentaras: true,
             data: true,
+            naudotojas: true
         },
     });
 
-    return <Komentarai komentarai={komentarai} />;
+    return <CommentSection komentarai={komentarai} />;
 }
 
 export default Kom;

@@ -5,6 +5,8 @@ import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { $Enums } from "@prisma/client";
 import { redirect } from "next/navigation";
+import Kom from '../../komentarai/Kom'; // importing the comment section
+
   
 
 interface ModuleData {
@@ -150,7 +152,8 @@ export default async function Page({
         >
           Atsiliepimai apie modulį
         </Link>
-      </div>
+          </div>
+          <Kom /> {/* This will display the comments */}
     </div>
   );
 }
